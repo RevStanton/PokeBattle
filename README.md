@@ -1,1 +1,1 @@
-# resource-calculator
+# PokeBattle
