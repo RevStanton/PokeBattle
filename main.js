@@ -19,10 +19,10 @@ import { enterArena, exitArena }  from './ui/state.js';
 import { saveBattleResult }       from './storage.js';
 
 async function init() {
-  // Initial landing text
+  // Landing text
   showOutput('Select two Pokémon and click "Start Battle".');
 
-  // Populate the dropdowns
+  // Populate dropdowns
   try {
     const list = await fetchPokemonList(50, 0);
     populateDropdown('pokemon1', list);
@@ -32,7 +32,7 @@ async function init() {
     showOutput('❌ ' + err.message);
   }
 
-  // Wire up buttons
+  // Wire buttons
   document.getElementById('compareBtn')
     .addEventListener('click', startBattle);
 
@@ -50,7 +50,6 @@ async function init() {
 async function startBattle() {
   const p1name = document.getElementById('pokemon1').value;
   const p2name = document.getElementById('pokemon2').value;
-
   if (!p1name || !p2name) {
     showOutput('Please select both Pokémon.');
     return;
@@ -59,13 +58,12 @@ async function startBattle() {
   showOutput(`Loading ${p1name} vs ${p2name}…`);
 
   try {
-    // Fetch Pokémon data in parallel
     const [p1, p2] = await Promise.all([
       fetchPokemonData(p1name),
       fetchPokemonData(p2name)
     ]);
 
-    // Fetch type relations
+    // Build type relations
     const allTypes = [...new Set([...p1.types, ...p2.types])];
     const typeMap = {};
     await Promise.all(
@@ -74,7 +72,7 @@ async function startBattle() {
       })
     );
 
-    // Pre‑battle analysis
+    // Pre‑battle effectiveness
     const initialEff = calcEffectiveness(p1.types, p2.types, typeMap);
     let effText;
     if (initialEff === 0) effText = 'ineffective';
@@ -86,11 +84,11 @@ async function startBattle() {
       `Type effectiveness: ${p1.name} → ${p2.name} is ${effText} (×${initialEff})`
     );
 
-    // Render and switch to arena
+    // Render & enter arena
     renderBattleScreen(p1, p2);
     enterArena();
 
-    // Run the battle simulation
+    // Run battle
     simulateBattle(
       p1, p2, typeMap,
       (att, def, dmg, hp1, hp2, max1, max2, eff) => {
@@ -124,5 +122,5 @@ async function startBattle() {
   }
 }
 
-// Kick things off
+// Start the app
 init();
