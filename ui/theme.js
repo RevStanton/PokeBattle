@@ -1,12 +1,11 @@
-// js/ui/theme.js
-
+// ui/theme.js
 export function applyTheme() {
   const root = document.documentElement;
 
-  /* Arena background — replace URL with your own or use a gradient */
+  /* use a path relative to index.html */
   root.style.setProperty(
     '--arena-bg',
-    "url('https://your‑cdn.com/pokemon‑arena.jpg') center/cover no-repeat"
+    "url('images/arena.jpg') center/cover no-repeat"
   );
 
   /* Card & panel backgrounds */
