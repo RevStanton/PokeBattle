@@ -2,8 +2,8 @@
 :root {
   --arena-bg: linear-gradient(to bottom, #74ebd5, #acb6e5);
   --arena-image: url('images/arena.jpg') center/cover no-repeat fixed;
-  --card-bg: rgba(255, 255, 255, 0.0);
-  --panel-bg: rgba(0, 0, 0, 0.7);
+  --card-bg: rgba(255,255,255,0.0);
+  --panel-bg: rgba(0,0,0,0.7);
   --accent-red: #ff1c1c;
   --accent-yellow: #ffde59;
   --accent-blue: #3b4cca;
@@ -13,204 +13,152 @@
 
 /* ===== Utility ===== */
 .hidden { display: none !important; }
-
-/* ===== Body & Modes ===== */
-body {
-  margin: 0; padding: 0;
-  font-family: var(--font-sans);
-  color: #222;
-  background: var(--arena-bg);
-  background-attachment: fixed;
-  transition: background 0.6s ease;
-  text-align: center;
+body { margin:0; padding:0; font-family:var(--font-sans); color:#222;
+       background:var(--arena-bg); background-attachment:fixed;
+       transition:background 0.6s ease; text-align:center;
+       display:flex; flex-direction:column; min-height:100vh;
 }
-body.arena-mode {
-  background: var(--arena-image);
-}
+body.arena-mode { background:var(--arena-image); }
 
 /* ===== Global Title ===== */
 h1 {
-  margin: 2rem 0 1rem;
-  font-family: var(--font-main);
-  font-size: 2.5rem;
-  color: var(--accent-blue);
-  text-shadow: 2px 2px var(--accent-yellow);
+  margin:1.5rem 0 1rem;
+  font-family:var(--font-main); color:var(--accent-blue);
+  text-shadow:2px 2px var(--accent-yellow);
+  font-size:2.5rem;
 }
 
-/* ===== Bounce Animation ===== */
-@keyframes bounce {
-  0%,100% { transform: translateY(0); }
-  50%     { transform: translateY(-20px); }
-}
-.bounce { animation: bounce 0.6s ease-in-out; }
-
-@keyframes flash-bg {
-  0%,100% { background-color: transparent; }
-  50%     { background-color: rgba(255,255,0,0.7); }
-}
-.flash { animation: flash-bg 0.3s ease-in-out; }
-
-/* ===== Selector / Landing View ===== */
+/* ===== Selector / Landing ===== */
 #selectorContainer {
-  display: flex;
-  justify-content: center;
-  align-items: flex-end;
-  gap: 1rem;
-  margin-bottom: 1.5rem;
+  display:flex; justify-content:center; align-items:flex-end;
+  gap:1rem; margin-bottom:1.5rem;
 }
 #selectorContainer label {
-  display: flex; flex-direction: column; align-items: center;
-  font-weight: bold;
+  display:flex; flex-direction:column; align-items:center;
+  font-weight:bold;
 }
 #selectorContainer select {
-  margin-top: 0.3rem; padding: 0.5rem; font-size: 1rem;
+  margin-top:0.3rem; padding:0.5rem; font-size:1rem;
 }
 #selectorContainer button {
-  padding: 0.6rem 1.2rem;
+  padding:0.6rem 1.2rem;
 }
 
 /* ===== Debug Output ===== */
 #output {
-  max-width: 600px; width: 90%;
-  margin: 0 auto 2rem;
-  background: #fff; padding: 10px;
-  border: 1px solid #ddd;
-  font-family: monospace; text-align: left;
-  min-height: 2em;
+  max-width:600px; width:90%; margin:0 auto 2rem;
+  background:#fff; padding:10px; border:1px solid #ddd;
+  font-family:monospace; text-align:left; min-height:2em;
 }
 
 /* ===== Battle Container ===== */
 .battle-container {
-  max-width: 900px; width: 90%;
-  margin: 3rem auto;
-  display: flex; justify-content: space-around;
-  background: none; padding-bottom: 3rem;
-}
-
-/* ===== Battle Log ===== */
-.battle-log {
-  max-width: 900px;
-  width: 90%;
-  margin: 1rem auto;
-  background: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  padding: 1rem;
-  border-radius: 8px;
-  font-family: monospace;
-  line-height: 1.4;
-  max-height: 200px;
-  overflow-y: auto;
-}
-.battle-log.hidden {
-  display: none !important;
-}
-.battle-log .log-entry {
-  margin-bottom: 0.5rem;
+  display:flex; justify-content:space-around; align-items:flex-start;
+  flex-wrap:wrap;
+  width:90%; max-width:900px; margin:0 auto; padding-bottom:3rem;
 }
 
 /* ===== Pokémon Card ===== */
 .battle-card {
-  position: relative;
-  width: 240px;
-  background: none;
-  text-align: center;
-  color: #fff;
+  position:relative; width:200px; margin:1rem;
+  background:none; text-align:center; color:#fff;
 }
 .battle-card h2 {
-  margin: 10px 0;
-  font-family: var(--font-main);
-  text-transform: capitalize;
+  margin:0.5rem 0; font-family:var(--font-main);
+  text-transform:capitalize; font-size:1.2rem;
 }
 
 /* ===== Sprite & Effects ===== */
 .sprite-container {
-  position: relative;
-  width: 200px; height: 200px; margin: 0 auto;
+  position:relative; width:150px; height:150px; margin:0 auto;
 }
 .pokemon-sprite {
-  width: 200px; height: 200px;
+  width:100%; height:100%;
 }
 .effect-layer {
-  position: absolute;
-  top: 0; left: 0; width: 100%; height: 100%;
-  pointer-events: none;
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  pointer-events:none;
 }
 
-/* ===== Floating Damage Numbers ===== */
+/* ===== Floating Damage ===== */
 .damage-number {
-  position: absolute;
-  font-family: var(--font-main);
-  font-size: 1.2rem;
-  color: var(--accent-yellow);
-  text-shadow: 1px 1px #000;
-  opacity: 1;
-  animation: float-up 1s ease-out forwards;
+  position:absolute; font-family:var(--font-main);
+  font-size:1rem; color:var(--accent-yellow);
+  text-shadow:1px 1px #000; opacity:1;
+  animation:float-up 1s ease-out forwards;
 }
 @keyframes float-up {
-  to { transform: translateY(-50px); opacity: 0; }
+  to { transform:translateY(-50px); opacity:0; }
 }
 
 /* ===== HP Bars ===== */
 .hp-bar {
-  position: absolute;
-  bottom: 0; left: 50%;
-  transform: translateX(-50%);
-  width: 80%; height: 16px;
-  background: #444; border-radius: 8px;
-  overflow: hidden;
+  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
+  width:80%; height:14px; background:#444; border-radius:8px;
+  overflow:hidden; margin-top:0.5rem;
 }
 .hp-fill {
-  height: 100%; width: 100%;
-  background: #4caf50;
-  transition: width 0.6s ease;
+  height:100%; width:100%; background:#4caf50;
+  transition:width 0.6s ease;
 }
 
-/* ===== Type‑Based Effects ===== */
-.fire-effect {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url('images/fire.gif') center/contain no-repeat;
-  animation: fade-out 0.8s ease-out forwards;
+/* ===== Battle Log ===== */
+.battle-log {
+  width:90%; max-width:900px; margin:1rem auto;
+  background:var(--panel-bg); color:#fff; padding:1rem;
+  border-radius:8px; font-family:monospace; line-height:1.4;
+  max-height:30vh; overflow-y:auto;
 }
-.water-effect {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url('images/water.gif') center/contain no-repeat;
-  animation: fade-out 0.8s ease-out forwards;
+.battle-log.hidden { display:none !important; }
+.battle-log .log-entry { margin-bottom:0.4rem; font-size:0.9rem; }
+
+/* ===== Bounce & Flash ===== */
+@keyframes bounce {
+  0%,100% { transform:translateY(0); }
+  50%     { transform:translateY(-15px); }
 }
-.electric-effect {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: url('images/electric.gif') center/contain no-repeat;
-  animation: fade-out 0.8s ease-out forwards;
+.bounce { animation:bounce 0.6s ease-in-out; }
+
+@keyframes flash-bg {
+  0%,100% { background-color:transparent; }
+  50%     { background-color:rgba(255,255,0,0.7); }
 }
-@keyframes fade-out {
-  to { opacity: 0; }
-}
+.flash { animation:flash-bg 0.3s ease-in-out; }
 
 /* ===== Reset Button ===== */
-#resetContainer {
-  margin-top: 1rem;
-}
+#resetContainer { margin-top:auto; padding:1rem 0; }
 
 /* ===== Buttons ===== */
 .button {
-  background: var(--accent-red);
-  color: #fff; border: none; border-radius: 6px;
-  cursor: pointer; transition: background 0.2s ease;
+  background:var(--accent-red); color:#fff; border:none; border-radius:6px;
+  cursor:pointer; transition:background 0.2s ease;
+  font-size:1rem; padding:0.5rem 1rem;
 }
-.button:hover {
-  background: #e60000;
-}
+.button:hover { background:#e60000; }
 
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
+/* ===== Responsive (≤768px) ===== */
+@media (max-width:768px) {
+  h1 { font-size:2rem; margin-top:1rem; }
   #selectorContainer {
-    flex-direction: column;
-    gap: 0.5rem;
+    flex-direction:column; align-items:center; gap:0.5rem;
+    width:90%; margin:1rem auto;
+  }
+  #selectorContainer select, #selectorContainer button {
+    width:100%; max-width:300px;
   }
   .battle-container {
-    flex-direction: column;
-    align-items: center;
+    flex-direction:column; align-items:center; padding-bottom:2rem;
+  }
+  .battle-card {
+    width:80%; margin:1rem 0;
+  }
+  .sprite-container { width:120px; height:120px; }
+  .battle-card h2 { font-size:1rem; }
+  .hp-bar { width:70%; height:12px; }
+  .battle-log {
+    max-height:40vh; font-size:0.8rem; padding:0.8rem;
+  }
+  #resetContainer .button {
+    width:50%; max-width:200px; margin:0 auto;
   }
 }
