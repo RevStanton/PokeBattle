@@ -7,7 +7,7 @@ body {
 }
 
 /* ===== Hidden Utility ===== */
-.hidden { display: none; }
+.hidden { display: none !important; }
 
 /* ===== Page Title ===== */
 h1 {

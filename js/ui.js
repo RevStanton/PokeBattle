@@ -4,7 +4,7 @@
 export function populateDropdown(selectId, names) {
   const sel = document.getElementById(selectId);
   sel.innerHTML = names.map(n =>
-    `<option value="${n}">${n.charAt(0).toUpperCase()+n.slice(1)}</option>`
+    `<option value="${n}">${n.charAt(0).toUpperCase() + n.slice(1)}</option>`
   ).join('');
 }
 
@@ -17,16 +17,26 @@ export function showOutput(content) {
     : content;
 }
 
-/** Render battle screen with sprites & names */
+/** Render battle screen with sprites, names & proper alt text */
 export function renderBattleScreen(p1, p2) {
-  document.getElementById('selector').style.display = 'none';
-  const B = document.getElementById('battleContainer');
-  B.style.display = 'flex';
+  document.getElementById('selector').classList.add('hidden');
+  document.getElementById('output').classList.add('hidden');
+  document.getElementById('battleContainer').classList.remove('hidden');
+  document.getElementById('resetContainer').classList.remove('hidden');
 
-  document.getElementById('poke1Img').src = p1.sprite;
-  document.getElementById('poke2Img').src = p2.sprite;
+  // Set Pokémon 1
+  const img1 = document.getElementById('poke1Img');
+  img1.src = p1.sprite;
+  img1.alt = p1.name;
   document.getElementById('poke1Name').textContent = p1.name;
+
+  // Set Pokémon 2
+  const img2 = document.getElementById('poke2Img');
+  img2.src = p2.sprite;
+  img2.alt = p2.name;
   document.getElementById('poke2Name').textContent = p2.name;
+
+  // Reset HP bars & log
   document.getElementById('poke1HpBar').style.width = '100%';
   document.getElementById('poke2HpBar').style.width = '100%';
   document.getElementById('battleLog').innerHTML = '';
@@ -44,7 +54,7 @@ export function logTurn(text) {
 /** Update HP bar fill fraction (0–1) */
 export function updateHpBar(barId, fraction) {
   const bar = document.getElementById(barId);
-  bar.style.width = `${Math.max(0, fraction*100)}%`;
+  bar.style.width = `${Math.max(0, fraction * 100)}%`;
 }
 
 /** Shake a sprite on hit */

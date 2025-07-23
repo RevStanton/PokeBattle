@@ -20,8 +20,6 @@ import {
 import { simulateBattle } from './battle.js';
 import { saveBattleResult } from './storage.js';
 
-let lastP1, lastP2, lastTypeMap;
-
 async function init() {
   showOutput('Loading Pokémon list…');
   try {
@@ -33,10 +31,19 @@ async function init() {
     console.error(err);
     showOutput('❌ ' + err.message);
   }
+
   document.getElementById('compareBtn')
     .addEventListener('click', startBattle);
+
   document.getElementById('resetBtn')
-    .addEventListener('click', resetBattle);
+    .addEventListener('click', () => {
+      // Reset UI visibility
+      document.getElementById('battleContainer').classList.add('hidden');
+      document.getElementById('resetContainer').classList.add('hidden');
+      document.getElementById('output').classList.remove('hidden');
+      document.getElementById('selector').classList.remove('hidden');
+      showOutput('Select two Pokémon and click "Start Battle".');
+    });
 }
 
 async function startBattle() {
@@ -46,7 +53,6 @@ async function startBattle() {
     showOutput('Please select both Pokémon.');
     return;
   }
-
   showOutput(`Loading data for ${p1name} vs ${p2name}…`);
 
   try {
@@ -63,15 +69,10 @@ async function startBattle() {
       typeMap[t] = await fetchTypeRelations(t);
     }));
 
-    // Save last battle data for potential future use
-    lastP1 = p1; lastP2 = p2; lastTypeMap = typeMap;
-
     // 3) Show battle UI
     renderBattleScreen(p1, p2);
-    document.getElementById('output').classList.add('hidden');
-    document.getElementById('resetContainer').classList.remove('hidden');
 
-    // 4) Simulate
+    // 4) Simulate the fight
     simulateBattle(
       p1, p2, typeMap,
       (att, def, dmg, hp1, hp2, max1, max2, eff) => {
@@ -100,16 +101,6 @@ async function startBattle() {
     console.error(err);
     showOutput('❌ ' + err.message);
   }
-}
-
-function resetBattle() {
-  // Hide battle and reset button, show selector + debug
-  document.getElementById('battleContainer').classList.add('hidden');
-  document.getElementById('resetContainer').classList.add('hidden');
-  document.getElementById('output').classList.remove('hidden');
-  showOutput('Select two Pokémon and click "Start Battle".');
-  document.getElementById('selector').classList.remove('hidden');
-  document.getElementById('battleLog').innerHTML = '';
 }
 
 init();
