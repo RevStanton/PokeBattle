@@ -14,7 +14,7 @@ import {
 }                                           from './ui/renderer.js';
 import { animateBounce, animateHpBar }       from './ui/animations.js';
 import { enterArena, exitArena }             from './ui/state.js';
-import { saveBattleResult }                  from './storage.js';
+
 
 async function init() {
   showOutput('Select two Pokémon and click "Start Battle".');
@@ -31,10 +31,14 @@ async function init() {
   document.getElementById('compareBtn')
     .addEventListener('click', startBattle);
 
-  document.getElementById('resetBtn')
-    .addEventListener('click', () => {
-      exitArena();
-      showOutput('Select two Pokémon and click "Start Battle".');
+  document.getElementById('resetBtn').addEventListener('click', () => {
+  exitArena();
+
+  // reset HP bars back to full
+  updateHpBar('poke1HpBar', 1);
+  updateHpBar('poke2HpBar', 1);
+
+  showOutput('Select two Pokémon and click "Start Battle".');
       ['pokemon1','pokemon2'].forEach(id => {
         const sel = document.getElementById(id);
         if (sel) sel.selectedIndex = 0;
@@ -99,7 +103,6 @@ async function startBattle() {
       },
       winner => {
         announceWinner(winner.name);
-        saveBattleResult(p1name, p2name, winner);
       }
     );
 
