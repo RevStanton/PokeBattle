@@ -1,11 +1,32 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  …
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PokéBattle Mini</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  …
-  <!-- At the very bottom of <body> -->
+
+  <h1>PokéBattle Mini</h1>
+
+  <div class="selector">
+    <label>
+      Your Pokémon:
+      <select id="pokemon1"></select>
+    </label>
+
+    <label>
+      Opponent:
+      <select id="pokemon2"></select>
+    </label>
+
+    <button id="compareBtn">Compare Stats</button>
+  </div>
+
+  <pre id="output">Waiting for you to hit “Compare Stats”…</pre>
+
+  <!-- load your main module -->
   <script type="module" src="./js/main.js"></script>
 </body>
 </html>

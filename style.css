@@ -1,11 +1,37 @@
 body {
-    font-family: Arial, sans-serif;
-    text-align: center;
-    background-color: #f8f9fa;
-    padding: 20px;
+  font-family: sans-serif;
+  padding: 20px;
+  background: #f5f5f5;
+  text-align: center;
 }
 
-canvas {
-    max-width: 600px;
-    margin: 0 auto;
+h1 {
+  margin-bottom: 1rem;
+}
+
+.selector {
+  display: inline-flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+
+select, button {
+  padding: 0.5rem;
+  font-size: 1rem;
+}
+
+#output {
+  background: #fff;
+  padding: 1rem;
+  max-width: 600px;
+  margin: 1rem auto;
+  text-align: left;
+  border: 1px solid #ddd;
 }
