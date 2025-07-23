@@ -1,5 +1,6 @@
 // js/storage.js
-export function saveBattleResult(yourName, oppName, result) {
-  // later: save to localStorage or backend
-  console.log('Battle saved:', yourName, 'vs', oppName, result);
+
+/** Stub: record battle results */
+export function saveBattleResult(yourName, oppName, winner) {
+  console.log('Battle Result:', yourName, 'vs', oppName, '→', winner.name);
 }
