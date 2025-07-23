@@ -9,20 +9,16 @@ import { showOutput }            from './ui/dom.js';
 import {
   populateDropdown,
   renderBattleScreen,
-  logTurn,
   updateHpBar,
   announceWinner
 }                               from './ui/renderer.js';
-import { animateHit, animateHpBar } from './ui/animations.js';
-
+import { animateBounce, animateHpBar } from './ui/animations.js';
 import { enterArena, exitArena }  from './ui/state.js';
 import { saveBattleResult }       from './storage.js';
 
 async function init() {
-  // Landing text
   showOutput('Select two Pokémon and click "Start Battle".');
 
-  // Populate dropdowns
   try {
     const list = await fetchPokemonList(50, 0);
     populateDropdown('pokemon1', list);
@@ -32,7 +28,6 @@ async function init() {
     showOutput('❌ ' + err.message);
   }
 
-  // Wire buttons
   document.getElementById('compareBtn')
     .addEventListener('click', startBattle);
 
@@ -56,14 +51,13 @@ async function startBattle() {
   }
 
   showOutput(`Loading ${p1name} vs ${p2name}…`);
-
   try {
     const [p1, p2] = await Promise.all([
       fetchPokemonData(p1name),
       fetchPokemonData(p2name)
     ]);
 
-    // Build type relations
+    // Fetch type relations
     const allTypes = [...new Set([...p1.types, ...p2.types])];
     const typeMap = {};
     await Promise.all(
@@ -79,7 +73,6 @@ async function startBattle() {
     else if (initialEff > 1) effText = 'super‑effective';
     else if (initialEff < 1) effText = 'not very effective';
     else effText = 'effective';
-
     showOutput(
       `Type effectiveness: ${p1.name} → ${p2.name} is ${effText} (×${initialEff})`
     );
@@ -88,29 +81,27 @@ async function startBattle() {
     renderBattleScreen(p1, p2);
     enterArena();
 
-    // Run battle
+    // Battle simulation
     simulateBattle(
-  p1, p2, typeMap,
-  (att, def, dmg, hp1, hp2, max1, max2, eff) => {
-    // determine target side key
-    const target = def === p2 ? 'p2' : 'p1';
+      p1, p2, typeMap,
+      (att, def, dmg, hp1, hp2, max1, max2, eff) => {
+        // Which side got hit?
+        const target = def === p2 ? 'p2' : 'p1';
 
-    // floating damage
-    animateDamage(target, dmg);
+        // Update HP bar & flash
+        const barId = target === 'p2' ? 'poke2HpBar' : 'poke1HpBar';
+        const newFrac = target === 'p2' ? (hp2 / max2) : (hp1 / max1);
+        updateHpBar(barId, newFrac);
+        animateHpBar(barId);
 
-    // type effect (use first type)
-    animateTypeEffect(target, att.types[0]);
-
-    // update HP bar
-    if (target === 'p2') updateHpBar('poke2HpBar', hp2 / max2);
-    else               updateHpBar('poke1HpBar', hp1 / max1);
-  },
-  winner => {
-    announceWinner(winner.name);
-    saveBattleResult(p1name, p2name, winner);
-  }
-);
-
+        // Bounce the sprite
+        animateBounce(target);
+      },
+      winner => {
+        announceWinner(winner.name);
+        saveBattleResult(p1name, p2name, winner);
+      }
+    );
 
   } catch (err) {
     console.error(err);
@@ -118,5 +109,4 @@ async function startBattle() {
   }
 }
 
-// Start the app
 init();

@@ -37,6 +37,19 @@ h1 {
   text-shadow: 2px 2px var(--accent-yellow);
 }
 
+/* ===== Bounce Animation ===== */
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-20px); }
+}
+.bounce { animation: bounce 0.6s ease-in-out; }
+
+@keyframes flash-bg {
+  0%,100% { background-color: transparent; }
+  50%     { background-color: rgba(255,255,0,0.7); }
+}
+.flash { animation: flash-bg 0.3s ease-in-out; }
+
 /* ===== Selector / Landing View ===== */
 #selectorContainer {
   display: flex;
