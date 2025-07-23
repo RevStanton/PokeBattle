@@ -1,19 +1,33 @@
 // services/api.js
 const API_BASE = 'https://pokeapi.co/api/v2';
 
-export async function fetchPokemonList(limit = 151, offset = 0) {
-  const res = await fetch(`${API_BASE}/pokemon?limit=${limit}&offset=${offset}`);
-  if (!res.ok) throw new Error('Failed to fetch Pokémon list');
-  const data = await res.json();
-  return data.results.map(p => p.name);
+/**
+ * Fetches the full list of Pokémon names.
+ */
+export async function fetchPokemonList() {
+  // 1) get the total count
+  const infoRes = await fetch(`${API_BASE}/pokemon?limit=1`);
+  if (!infoRes.ok) throw new Error('Failed to fetch Pokémon count');
+  const infoData = await infoRes.json();
+  const total = infoData.count;
+
+  // 2) fetch them all in one go
+  const listRes = await fetch(`${API_BASE}/pokemon?limit=${total}&offset=0`);
+  if (!listRes.ok) throw new Error('Failed to fetch full Pokémon list');
+  const listData = await listRes.json();
+
+  // return just the names
+  return listData.results.map(p => p.name);
 }
 
+/**
+ * Fetch a single Pokémon’s data (unchanged)
+ */
 export async function fetchPokemonData(name) {
   const res = await fetch(`${API_BASE}/pokemon/${name.toLowerCase()}`);
   if (!res.ok) throw new Error(`Pokémon "${name}" not found`);
   const data = await res.json();
 
-  // turn stats array into a name→value map
   const stats = data.stats.reduce((acc, s) => {
     acc[s.stat.name] = s.base_stat;
     return acc;
@@ -24,9 +38,7 @@ export async function fetchPokemonData(name) {
     types: data.types.map(t => t.type.name),
     stats,
     sprites: {
-      // primary battle sprite
       front_default: data.sprites.front_default,
-      // fallback to the official artwork if the default is missing
       official: data.sprites.other?.['official-artwork']?.front_default || ''
     }
   };

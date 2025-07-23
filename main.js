@@ -25,7 +25,7 @@ async function init() {
   showOutput('Select two Pokémon and click "Start Battle".');
 
   try {
-    const list = await fetchPokemonList(50, 0);
+    const list = await fetchPokemonList();
     populateDropdown('pokemon1', list);
     populateDropdown('pokemon2', list);
   } catch (err) {
