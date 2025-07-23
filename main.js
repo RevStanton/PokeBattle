@@ -16,6 +16,10 @@ import {
 import { animateBounce, animateHpBar }       from './ui/animations.js';
 import { enterArena, exitArena }             from './ui/state.js';
 
+/** Simple helper to capitalize a string */
+function capitalize(s) {
+  return s.charAt(0).toUpperCase() + s.slice(1);
+}
 
 async function init() {
   showOutput('Select two Pokémon and click "Start Battle".');
@@ -32,14 +36,15 @@ async function init() {
   document.getElementById('compareBtn')
     .addEventListener('click', startBattle);
 
-  document.getElementById('resetBtn').addEventListener('click', () => {
-  exitArena();
+  document.getElementById('resetBtn')
+    .addEventListener('click', () => {
+      exitArena();
 
-  // reset HP bars back to full
-  updateHpBar('poke1HpBar', 1);
-  updateHpBar('poke2HpBar', 1);
+      // reset HP bars back to full
+      updateHpBar('poke1HpBar', 1);
+      updateHpBar('poke2HpBar', 1);
 
-  showOutput('Select two Pokémon and click "Start Battle".');
+      showOutput('Select two Pokémon and click "Start Battle".');
       ['pokemon1','pokemon2'].forEach(id => {
         const sel = document.getElementById(id);
         if (sel) sel.selectedIndex = 0;
@@ -79,7 +84,7 @@ async function startBattle() {
     else if (initialEff < 1) effText = 'not very effective';
     else effText = 'effective';
     showOutput(
-      `Type effectiveness: ${p1.name} → ${p2.name} is ${effText} (×${initialEff})`
+      `Type effectiveness: ${capitalize(p1.name)} → ${capitalize(p2.name)} is ${effText} (×${initialEff})`
     );
 
     // Render the battle screen
@@ -92,11 +97,15 @@ async function startBattle() {
       (att, def, dmg, hp1, hp2, max1, max2, eff) => {
         // Which side got hit?
         const target = def === p2 ? 'p2' : 'p1';
+
+        // Log the hit
+        const attackerName = capitalize(att.name);
+        const defenderName = capitalize(def.name);
         logBattle(`${attackerName} hits ${defenderName} for ${dmg} damage`);
 
         // Update & flash their HP bar
         const barId   = target === 'p2' ? 'poke2HpBar' : 'poke1HpBar';
-        const newFrac = target === 'p2' ? hp2/max2 : hp1/max1;
+        const newFrac = target === 'p2' ? hp2 / max2 : hp1 / max1;
         updateHpBar(barId, newFrac);
         animateHpBar(barId);
 
@@ -104,8 +113,9 @@ async function startBattle() {
         animateBounce(target);
       },
       winner => {
-        announceWinner(winner.name);
-         logBattle(`${wn} faints!`);
+        const wn = capitalize(winner.name);
+        logBattle(`${wn} faints!`);
+        announceWinner(wn);
       }
     );
 
