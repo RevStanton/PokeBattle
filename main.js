@@ -1,12 +1,12 @@
-// js/main.js
+// main.js
 
-import { fetchPokemonList, fetchPokemonData }   from './services/api.js';
-import { fetchTypeRelations }                  from './services/typeService.js';
+import { fetchPokemonList, fetchPokemonData } from './services/api.js';
+import { fetchTypeRelations }                from './services/typeService.js';
 
-import { simulateBattle }                      from './services/battleEngine.js';
-import { calcEffectiveness }                   from './services/effectiveness.js';
+import { simulateBattle }                    from './services/battleEngine.js';
+import { calcEffectiveness }                 from './services/effectiveness.js';
 
-import { showOutput }                          from './ui/dom.js';
+import { showOutput }                        from './ui/dom.js';
 import {
   populateDropdown,
   renderBattleScreen,
@@ -14,9 +14,10 @@ import {
   updateHpBar,
   announceWinner
 } from './ui/renderer.js';
-import { animateHit, animateHpBar }            from './ui/animations.js';
+import { animateHit, animateHpBar }          from './ui/animations.js';
 
-import { saveBattleResult }                    from './storage.js';
+import { saveBattleResult }                  from './storage.js';
+
 
 async function init() {
   showOutput('Loading Pokémon list…');

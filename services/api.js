@@ -1,4 +1,4 @@
-// js/services/api.js
+// services/api.js
 const API_BASE = 'https://pokeapi.co/api/v2';
 
 export async function fetchPokemonList(limit = 50, offset = 0) {
