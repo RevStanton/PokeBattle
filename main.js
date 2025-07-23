@@ -126,7 +126,7 @@ async function startBattle() {
       // onComplete callback
       winner => {
         const winnerName = capitalize(winner.name);
-        logBattle(`${winnerName} faints!`);
+        logBattle(`${winnerName} wins!`);
         announceWinner(winnerName);
       }
     );
