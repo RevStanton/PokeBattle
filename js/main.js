@@ -36,14 +36,7 @@ async function init() {
     .addEventListener('click', startBattle);
 
   document.getElementById('resetBtn')
-    .addEventListener('click', () => {
-      // Reset UI visibility
-      document.getElementById('battleContainer').classList.add('hidden');
-      document.getElementById('resetContainer').classList.add('hidden');
-      document.getElementById('output').classList.remove('hidden');
-      document.getElementById('selector').classList.remove('hidden');
-      showOutput('Select two Pokémon and click "Start Battle".');
-    });
+    .addEventListener('click', resetBattle);
 }
 
 async function startBattle() {
@@ -56,30 +49,28 @@ async function startBattle() {
   showOutput(`Loading data for ${p1name} vs ${p2name}…`);
 
   try {
-    // 1) Fetch both Pokémon
     const [p1, p2] = await Promise.all([
       fetchPokemonData(p1name),
       fetchPokemonData(p2name)
     ]);
-
-    // 2) Fetch type relations
-    const allTypes = [...new Set([...p1.types, ...p2.types])];
+    const types = [...new Set([...p1.types, ...p2.types])];
     const typeMap = {};
-    await Promise.all(allTypes.map(async t => {
+    await Promise.all(types.map(async t => {
       typeMap[t] = await fetchTypeRelations(t);
     }));
 
-    // 3) Show battle UI
     renderBattleScreen(p1, p2);
 
-    // 4) Simulate the fight
     simulateBattle(
       p1, p2, typeMap,
       (att, def, dmg, hp1, hp2, max1, max2, eff) => {
-        const emot = eff === 0 ? 'ineffective'
-                   : eff > 1 ? 'super‑effective'
-                   : eff < 1 ? 'not very effective'
-                   : 'effective';
+        const emot = eff === 0
+          ? 'ineffective'
+          : eff > 1
+            ? 'super‑effective'
+            : eff < 1
+              ? 'not very effective'
+              : 'effective';
         logTurn(`${att.name} attacks ${def.name} (${emot}) for ${dmg} damage.`);
         if (def === p2) {
           updateHpBar('poke2HpBar', hp2/max2);
@@ -101,6 +92,20 @@ async function startBattle() {
     console.error(err);
     showOutput('❌ ' + err.message);
   }
+}
+
+function resetBattle() {
+  document.getElementById('battleContainer').classList.add('hidden');
+  document.getElementById('resetContainer').classList.add('hidden');
+  document.getElementById('selectorContainer').classList.remove('hidden');
+  document.getElementById('output').classList.remove('hidden');
+  showOutput('Select two Pokémon and click "Start Battle".');
+
+  // reset dropdowns to first option
+  ['pokemon1','pokemon2'].forEach(id => {
+    const sel = document.getElementById(id);
+    if (sel) sel.selectedIndex = 0;
+  });
 }
 
 init();

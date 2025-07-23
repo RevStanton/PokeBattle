@@ -10,8 +10,8 @@
 
   <h1>PokéBattle Mini</h1>
 
-  <!-- ① Selector Screen -->
-  <div id="selector" class="selector">
+  <!-- Selector Screen -->
+  <div id="selectorContainer" class="selector">
     <label>
       Your Pokémon:
       <select id="pokemon1"></select>
@@ -23,10 +23,10 @@
     <button id="compareBtn" class="button">Start Battle</button>
   </div>
 
-  <!-- ② Debug / Output Area -->
+  <!-- Debug / Output Area -->
   <pre id="output">Initializing…</pre>
 
-  <!-- ③ Battle Screen (hidden until battle starts) -->
+  <!-- Battle Screen (hidden until battle starts) -->
   <div id="battleContainer" class="battle-container hidden">
     <div class="battle-card">
       <img id="poke1Img" src="" alt="" />
@@ -41,8 +41,8 @@
     <div id="battleLog" class="battle-log"></div>
   </div>
 
-  <!-- ④ Reset Button -->
-  <div id="resetContainer" class="reset-container hidden">
+  <!-- Reset Button -->
+  <div id="resetContainer" class="hidden">
     <button id="resetBtn" class="button">New Battle</button>
   </div>
 

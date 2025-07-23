@@ -1,19 +1,12 @@
+/* ===== Utility ===== */
+.hidden { display: none !important; }
+
 /* ===== Global & Arena Background ===== */
 body {
   margin: 0; padding: 0;
   font-family: 'Verdana', sans-serif;
   background: linear-gradient(to bottom, #74ebd5, #acb6e5);
   color: #333; text-align: center;
-}
-
-/* ===== Hidden Utility ===== */
-.hidden { display: none !important; }
-
-/* ===== Page Title ===== */
-h1 {
-  margin: 20px 0;
-  font-size: 2.5rem;
-  text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
 }
 
 /* ===== Selector Area ===== */
@@ -47,10 +40,9 @@ select, button {
   margin: 0 auto 1rem;
   font-family: monospace;
   text-align: left;
-  min-height: 2em;
 }
 
-/* ===== Battle Container ===== */
+/* ===== Battle Screen ===== */
 .battle-container {
   max-width: 1000px;
   margin: 0 auto 1rem;
@@ -62,8 +54,6 @@ select, button {
   border-radius: 20px;
   box-shadow: 0 0 20px rgba(0,0,0,0.5);
 }
-
-/* ===== Pokémon Cards ===== */
 .battle-card {
   width: 200px;
   background: rgba(255,255,255,0.8);
@@ -101,26 +91,12 @@ select, button {
   height: 280px; overflow-y: auto;
 }
 
-/* ===== Reset Container ===== */
-#resetContainer {
-  margin-bottom: 2rem;
-}
-
-/* ===== Animations ===== */
-@keyframes shake {
-  0%,100% { transform: translateX(0); }
-  20%,60% { transform: translateX(-5px); }
-  40%,80% { transform: translateX(5px); }
-}
-@keyframes flash-bg {
-  0%,100% { background-color: transparent; }
-  50% { background-color: rgba(255,255,0,0.7); }
-}
-.shake { animation: shake 0.5s ease-in-out; }
-.flash { animation: flash-bg 0.3s ease-in-out; }
-
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .battle-container { flex-direction: column; align-items: center; }
-  .battle-log { max-width: 90%; margin-top: 20px; }
+  .battle-container {
+    flex-direction: column; align-items: center;
+  }
+  .battle-log {
+    max-width: 90%; margin-top: 20px;
+  }
 }
