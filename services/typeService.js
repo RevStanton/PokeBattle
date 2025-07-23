@@ -1,4 +1,4 @@
-// js/services/typeService.js
+// services/typeService.js
 import { fetchPokemonData } from './api.js'; // if needed
 
 const API_BASE = 'https://pokeapi.co/api/v2/type/';
