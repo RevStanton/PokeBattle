@@ -16,7 +16,7 @@ import {
 import { animateBounce, animateHpBar }       from './ui/animations.js';
 import { enterArena, exitArena }             from './ui/state.js';
 
-/** Capitalize helper */
+/** Capitalize a string’s first letter */
 function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
@@ -39,10 +39,12 @@ async function init() {
   document.getElementById('resetBtn')
     .addEventListener('click', () => {
       exitArena();
-
-      // reset HP bars
+      // Reset HP bars
       updateHpBar('poke1HpBar', 1);
       updateHpBar('poke2HpBar', 1);
+      // Hide battle log
+      const log = document.getElementById('battleLog');
+      if (log) log.classList.add('hidden');
 
       showOutput('Select two Pokémon and click "Start Battle".');
       ['pokemon1', 'pokemon2'].forEach(id => {
@@ -61,8 +63,8 @@ async function startBattle() {
   }
 
   showOutput(`Loading ${p1name} vs ${p2name}…`);
-
   try {
+    // Fetch both Pokémon
     const [p1, p2] = await Promise.all([
       fetchPokemonData(p1name),
       fetchPokemonData(p2name)
@@ -77,52 +79,55 @@ async function startBattle() {
       })
     );
 
-    // Show pre‑battle effectiveness
+    // Pre‑battle effectiveness (debug)
     const initialEff = calcEffectiveness(p1.types, p2.types, typeMap);
-    let effText;
-    if (initialEff === 0)                  effText = 'ineffective';
-    else if (initialEff > 1)               effText = 'super‑effective';
-    else if (initialEff < 1)               effText = 'not very effective';
-    else                                    effText = 'effective';
+    let effText = initialEff === 0
+      ? 'ineffective'
+      : initialEff > 1
+        ? 'super‑effective'
+        : initialEff < 1
+          ? 'not very effective'
+          : 'effective';
     showOutput(
       `Type effectiveness: ${capitalize(p1.name)} → ${capitalize(p2.name)} is ${effText} (×${initialEff})`
     );
 
-    // Render screen and enter arena mode
+    // Show battle screen & log
     renderBattleScreen(p1, p2);
     enterArena();
+    const log = document.getElementById('battleLog');
+    if (log) log.classList.remove('hidden');
 
-    // Start the battle
+    // Simulate the fight
     simulateBattle(
       p1, p2, typeMap,
 
       // onUpdate callback
       (att, def, dmg, hp1, hp2, max1, max2, eff) => {
-        // Names
         const attackerName = capitalize(att.name);
         const defenderName = capitalize(def.name);
 
-        // Log it
+        // 1) Log the hit
         logBattle(`${attackerName} hits ${defenderName} for ${dmg} damage`);
 
-        // Determine which bar to update
+        // 2) Update & flash HP
         const target = def === p2 ? 'p2' : 'p1';
-        const barId = target === 'p2' ? 'poke2HpBar' : 'poke1HpBar';
-        const newFrac = target === 'p2' ? hp2 / max2 : hp1 / max1;
-
-        // Update & animate HP
+        const barId   = target === 'p2' ? 'poke2HpBar' : 'poke1HpBar';
+        const newFrac = target === 'p2'
+          ? hp2 / max2
+          : hp1 / max1;
         updateHpBar(barId, newFrac);
         animateHpBar(barId);
 
-        // Bounce the sprite
+        // 3) Bounce the defender sprite
         animateBounce(target);
       },
 
       // onComplete callback
       winner => {
-        const wn = capitalize(winner.name);
-        logBattle(`${wn} faints!`);
-        announceWinner(wn);
+        const winnerName = capitalize(winner.name);
+        logBattle(`${winnerName} faints!`);
+        announceWinner(winnerName);
       }
     );
 
@@ -132,5 +137,4 @@ async function startBattle() {
   }
 }
 
-// Kick off
 init();
