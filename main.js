@@ -90,31 +90,27 @@ async function startBattle() {
 
     // Run battle
     simulateBattle(
-      p1, p2, typeMap,
-      (att, def, dmg, hp1, hp2, max1, max2, eff) => {
-        let emot;
-        if (eff === 0) emot = 'ineffective';
-        else if (eff > 1) emot = 'super‑effective';
-        else if (eff < 1) emot = 'not very effective';
-        else emot = 'effective';
+  p1, p2, typeMap,
+  (att, def, dmg, hp1, hp2, max1, max2, eff) => {
+    // determine target side key
+    const target = def === p2 ? 'p2' : 'p1';
 
-        logTurn(`${att.name} attacks ${def.name} (${emot}) for ${dmg} damage.`);
+    // floating damage
+    animateDamage(target, dmg);
 
-        if (def === p2) {
-          updateHpBar('poke2HpBar', hp2 / max2);
-          animateHpBar('poke2HpBar');
-          animateHit('poke2Img');
-        } else {
-          updateHpBar('poke1HpBar', hp1 / max1);
-          animateHpBar('poke1HpBar');
-          animateHit('poke1Img');
-        }
-      },
-      winner => {
-        announceWinner(winner.name);
-        saveBattleResult(p1name, p2name, winner);
-      }
-    );
+    // type effect (use first type)
+    animateTypeEffect(target, att.types[0]);
+
+    // update HP bar
+    if (target === 'p2') updateHpBar('poke2HpBar', hp2 / max2);
+    else               updateHpBar('poke1HpBar', hp1 / max1);
+  },
+  winner => {
+    announceWinner(winner.name);
+    saveBattleResult(p1name, p2name, winner);
+  }
+);
+
 
   } catch (err) {
     console.error(err);

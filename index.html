@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>PokéBattle Mini</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-
   <h1>PokéBattle Mini</h1>
 
-  <!-- Selector Screen -->
+  <!-- Selector / Landing View -->
   <div id="selectorContainer" class="selector">
     <label>
       Your Pokémon:
@@ -23,25 +22,31 @@
     <button id="compareBtn" class="button">Start Battle</button>
   </div>
 
-  <!-- Debug / Output Area -->
-  <pre id="output">Initializing…</pre>
+  <pre id="output">Select two Pokémon and click "Start Battle".</pre>
 
-  <!-- Battle Screen (hidden until battle starts) -->
+  <!-- Arena Battle View -->
   <div id="battleContainer" class="battle-container hidden">
-    <div class="battle-card">
-      <img id="poke1Img" src="" alt="" />
+    <!-- Player 1 Card -->
+    <div class="battle-card" data-pokemon="p1">
+      <div class="sprite-container">
+        <img id="poke1Img" class="pokemon-sprite" src="" alt=""/>
+        <div class="effect-layer"></div>
+      </div>
       <h2 id="poke1Name"></h2>
       <div class="hp-bar"><div id="poke1HpBar" class="hp-fill"></div></div>
     </div>
-    <div class="battle-card">
-      <img id="poke2Img" src="" alt="" />
+    <!-- Player 2 Card -->
+    <div class="battle-card" data-pokemon="p2">
+      <div class="sprite-container">
+        <img id="poke2Img" class="pokemon-sprite" src="" alt=""/>
+        <div class="effect-layer"></div>
+      </div>
       <h2 id="poke2Name"></h2>
       <div class="hp-bar"><div id="poke2HpBar" class="hp-fill"></div></div>
     </div>
-    <div id="battleLog" class="battle-log"></div>
   </div>
 
-  <!-- Reset Button -->
+  <!-- Reset / New Battle -->
   <div id="resetContainer" class="hidden">
     <button id="resetBtn" class="button">New Battle</button>
   </div>
