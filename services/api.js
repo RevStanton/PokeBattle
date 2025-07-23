@@ -1,4 +1,4 @@
-// js/api.js
+// js/services/api.js
 const API_BASE = 'https://pokeapi.co/api/v2';
 
 export async function fetchPokemonList(limit = 50, offset = 0) {
@@ -19,16 +19,5 @@ export async function fetchPokemonData(name) {
     sprite: json.sprites.front_default,
     stats,
     types: json.types.map(t => t.type.name)
-  };
-}
-
-export async function fetchTypeRelations(typeName) {
-  const res = await fetch(`${API_BASE}/type/${typeName}`);
-  if (!res.ok) throw new Error(`Type "${typeName}" not found`);
-  const { damage_relations } = await res.json();
-  return {
-    double: damage_relations.double_damage_to.map(t => t.name),
-    half:   damage_relations.half_damage_to.map(t => t.name),
-    immune: damage_relations.no_damage_to.map(t => t.name)
   };
 }

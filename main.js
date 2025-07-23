@@ -1,24 +1,18 @@
 // js/main.js
 
-import {
-  fetchPokemonList,
-  fetchPokemonData,
-  fetchTypeRelations
-} from './api.js';
-
+import { fetchPokemonList, fetchPokemonData } from './services/api.js';
+import { fetchTypeRelations }        from './services/typeService.js';
+import { simulateBattle }            from './engine/battleEngine.js';
+import { showOutput }                from './ui/dom.js';
 import {
   populateDropdown,
-  showOutput,
   renderBattleScreen,
   logTurn,
   updateHpBar,
-  animateHit,
-  animateHpBar,
   announceWinner
-} from './ui.js';
-
-import { simulateBattle } from './battle.js';
-import { saveBattleResult } from './storage.js';
+} from './ui/renderer.js';
+import { animateHit, animateHpBar }  from './ui/animations.js';
+import { saveBattleResult }          from './storage.js';
 
 async function init() {
   showOutput('Loading Pokémon list…');
@@ -32,11 +26,8 @@ async function init() {
     showOutput('❌ ' + err.message);
   }
 
-  document.getElementById('compareBtn')
-    .addEventListener('click', startBattle);
-
-  document.getElementById('resetBtn')
-    .addEventListener('click', resetBattle);
+  document.getElementById('compareBtn').addEventListener('click', startBattle);
+  document.getElementById('resetBtn').addEventListener('click', resetBattle);
 }
 
 async function startBattle() {
@@ -53,9 +44,9 @@ async function startBattle() {
       fetchPokemonData(p1name),
       fetchPokemonData(p2name)
     ]);
-    const types = [...new Set([...p1.types, ...p2.types])];
+    const allTypes = [...new Set([...p1.types, ...p2.types])];
     const typeMap = {};
-    await Promise.all(types.map(async t => {
+    await Promise.all(allTypes.map(async t => {
       typeMap[t] = await fetchTypeRelations(t);
     }));
 
@@ -100,11 +91,9 @@ function resetBattle() {
   document.getElementById('selectorContainer').classList.remove('hidden');
   document.getElementById('output').classList.remove('hidden');
   showOutput('Select two Pokémon and click "Start Battle".');
-
-  // reset dropdowns to first option
   ['pokemon1','pokemon2'].forEach(id => {
-    const sel = document.getElementById(id);
-    if (sel) sel.selectedIndex = 0;
+    const s = document.getElementById(id);
+    if (s) s.selectedIndex = 0;
   });
 }
 
