@@ -2,7 +2,7 @@
 
 import { fetchPokemonList, fetchPokemonData } from './services/api.js';
 import { fetchTypeRelations }        from './services/typeService.js';
-import { simulateBattle }            from './engine/battleEngine.js';
+import { simulateBattle }            from './services/battleEngine.js';
 import { showOutput }                from './ui/dom.js';
 import {
   populateDropdown,
