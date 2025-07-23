@@ -1,6 +1,5 @@
 // js/storage.js
-
-/** Stub: we'll add persistence later */
 export function saveBattleResult(yourName, oppName, result) {
-  console.log('Would save result:', yourName, 'vs', oppName, result);
+  // later: save to localStorage or backend
+  console.log('Battle saved:', yourName, 'vs', oppName, result);
 }
