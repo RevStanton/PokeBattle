@@ -1,6 +1,6 @@
 // js/ui/animations.js
 
-/** Bounce the sprite for 0.6s */
+/** Bounce the Pokémon sprite for 0.6s */
 export function animateBounce(side) {
   const img = document.querySelector(
     `.battle-card[data-pokemon="${side}"] img`
@@ -14,7 +14,7 @@ export function animateBounce(side) {
   );
 }
 
-/** Flash the HP bar when it updates */
+/** Flash the HP fill bar when it updates */
 export function animateHpBar(id) {
   const bar = document.getElementById(id);
   if (!bar) return;
