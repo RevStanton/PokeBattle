@@ -137,65 +137,70 @@ h1 {
 .button:hover { background:#e60000; }
 
 /* ===== Responsive (≤768px) ===== */
-@media (max-width:768px) {
-  /* --- Selector / Landing: full‑width, left‑aligned --- */
+/* ===== Mobile Overrides (≤768px) ===== */
+@media (max-width: 768px) {
+  /* 1) Selector area: labels & selects full-width, box-sized */
   #selectorContainer {
     flex-direction: column;
-    align-items: flex-start;    /* left align the labels */
-    gap: 1rem;
+    align-items: flex-start;
+    gap: 0.75rem;
     width: 100%;
     padding: 0 1rem;
   }
   #selectorContainer label {
     width: 100%;
-    align-items: flex-start;    /* label text & select left */
+    align-items: flex-start;
     text-align: left;
   }
-  #selectorContainer select,
+  #selectorContainer select {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
   #selectorContainer button {
     width: 100%;
     max-width: none;
   }
 
-  /* --- Battle Container: stack & center on mobile --- */
+  /* 2) Battle cards: side-by-side, two per row */
   .battle-container {
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
+    flex-direction: row;        /* back to row */
+    flex-wrap: wrap;            /* allow wrap if too tight */
+    justify-content: space-around;
     padding: 0 1rem 2rem;
+    width: 100%;
   }
   .battle-card {
-    width: 100%;
-    max-width: 280px;
-    margin: 1rem auto;
+    flex: 0 1 45%;              /* each takes ~45% of screen */
+    max-width: 180px;
+    margin: 1rem 0.5rem;
   }
-  /* shrink the sprites so they don’t overlap */
+
+  /* shrink sprites so two fit cleanly */
   .sprite-container {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
   }
   .battle-card h2 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .hp-bar {
     width: 90%;
     height: 10px;
   }
 
-  /* --- Battle Log: tighten up and smaller font --- */
+  /* 3) Log & Reset: easy to scroll & tap */
   .battle-log {
-    max-height: 35vh;
-    font-size: 0.7rem;
-    padding: 0.5rem;
+    max-height: 30vh;
+    font-size: 0.75rem;
+    padding: 0.6rem;
     margin: 1rem auto;
   }
-
-  /* --- Reset Button: bigger & full width --- */
   #resetContainer .button {
     width: 90%;
     max-width: none;
     margin: 0.5rem auto;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     padding: 0.75rem;
   }
 }
