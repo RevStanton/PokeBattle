@@ -87,6 +87,27 @@ h1 {
   background: none; padding-bottom: 3rem;
 }
 
+/* ===== Battle Log ===== */
+.battle-log {
+  max-width: 900px;
+  width: 90%;
+  margin: 1rem auto;
+  background: rgba(0, 0, 0, 0.6);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  line-height: 1.4;
+  max-height: 200px;
+  overflow-y: auto;
+}
+.battle-log.hidden {
+  display: none !important;
+}
+.battle-log .log-entry {
+  margin-bottom: 0.5rem;
+}
+
 /* ===== Pokémon Card ===== */
 .battle-card {
   position: relative;

@@ -10,7 +10,8 @@ import {
   populateDropdown,
   renderBattleScreen,
   updateHpBar,
-  announceWinner
+  announceWinner,
+  logBattle
 }                                           from './ui/renderer.js';
 import { animateBounce, animateHpBar }       from './ui/animations.js';
 import { enterArena, exitArena }             from './ui/state.js';
@@ -91,6 +92,7 @@ async function startBattle() {
       (att, def, dmg, hp1, hp2, max1, max2, eff) => {
         // Which side got hit?
         const target = def === p2 ? 'p2' : 'p1';
+        logBattle(`${attackerName} hits ${defenderName} for ${dmg} damage`);
 
         // Update & flash their HP bar
         const barId   = target === 'p2' ? 'poke2HpBar' : 'poke1HpBar';
@@ -103,6 +105,7 @@ async function startBattle() {
       },
       winner => {
         announceWinner(winner.name);
+         logBattle(`${wn} faints!`);
       }
     );
 

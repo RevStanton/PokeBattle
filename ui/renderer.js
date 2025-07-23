@@ -63,6 +63,22 @@ export function renderBattleScreen(p1, p2) {
   reset   .classList.remove('hidden');
 }
 
+/** Append one entry to the on‑screen battle log */
+export function logBattle(msg) {
+  const log = document.getElementById('battleLog');
+  if (!log) return;
+  // Un-hide on first use
+  if (log.classList.contains('hidden')) {
+    log.classList.remove('hidden');
+  }
+  const entry = document.createElement('div');
+  entry.className = 'log-entry';
+  entry.textContent = msg;
+  log.appendChild(entry);
+  // auto‑scroll to bottom
+  log.scrollTop = log.scrollHeight;
+}
+
 /** Shrink the HP bar width to fraction*100% */
 export function updateHpBar(id, fraction) {
   const bar = document.getElementById(id);
