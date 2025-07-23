@@ -17,7 +17,17 @@ import {
 import { animateHit, animateHpBar }          from './ui/animations.js';
 
 import { saveBattleResult }                  from './storage.js';
+import { applyTheme }     from './ui/theme.js';
+import { renderHeader, renderFooter } from './ui/layout.js';
 
+async function init() {
+  // 1) Apply your Arena theme & layout
+  applyTheme();
+  renderHeader();
+  renderFooter();
+
+  // …then your existing init code:
+}
 
 async function init() {
   showOutput('Loading Pokémon list…');
