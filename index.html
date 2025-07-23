@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>PokéBattle Mini</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
   <h1>PokéBattle Mini</h1>
 
-  <!-- selector screen -->
+  <!-- ① Selector Screen -->
   <div id="selector" class="selector">
     <label>
       Your Pokémon:
@@ -20,32 +20,30 @@
       Opponent:
       <select id="pokemon2"></select>
     </label>
-    <button id="compareBtn">Start Battle</button>
+    <button id="compareBtn" class="button">Start Battle</button>
   </div>
 
-  <!-- debug / output area -->
-  <pre id="output" style="
-      background: #fff;
-      padding: 10px;
-      border: 1px solid #ddd;
-      max-width: 600px;
-      margin: 1rem auto;
-      font-family: monospace;
-    ">Initializing…</pre>
+  <!-- ② Debug / Output Area -->
+  <pre id="output">Initializing…</pre>
 
-  <!-- battle screen (hidden until you click “Start Battle”) -->
-  <div id="battleContainer" class="battle-container" style="display:none;">
+  <!-- ③ Battle Screen (hidden until battle starts) -->
+  <div id="battleContainer" class="battle-container hidden">
     <div class="battle-card">
-      <img id="poke1Img" src="" alt="You">
+      <img id="poke1Img" src="" alt="You"/>
       <h2 id="poke1Name"></h2>
       <div class="hp-bar"><div id="poke1HpBar" class="hp-fill"></div></div>
     </div>
     <div class="battle-card">
-      <img id="poke2Img" src="" alt="Opponent">
+      <img id="poke2Img" src="" alt="Opponent"/>
       <h2 id="poke2Name"></h2>
       <div class="hp-bar"><div id="poke2HpBar" class="hp-fill"></div></div>
     </div>
     <div id="battleLog" class="battle-log"></div>
+  </div>
+
+  <!-- ④ Reset Button -->
+  <div id="resetContainer" class="hidden">
+    <button id="resetBtn" class="button">New Battle</button>
   </div>
 
   <script type="module" src="./js/main.js"></script>
