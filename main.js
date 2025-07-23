@@ -1,7 +1,7 @@
 // js/main.js
 
 import { fetchPokemonList, fetchPokemonData }   from './services/api.js';
-import { fetchTypeRelations }                  from './services/typeServices.js';
+import { fetchTypeRelations }                  from './services/typeService.js';
 
 import { simulateBattle }                      from './services/battleEngine.js';
 import { calcEffectiveness }                   from './services/effectiveness.js';
