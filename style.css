@@ -12,9 +12,7 @@
 }
 
 /* ===== Utility ===== */
-.hidden {
-  display: none !important;
-}
+.hidden { display: none !important; }
 
 /* ===== Body & Modes ===== */
 body {
@@ -25,17 +23,25 @@ body {
   background: var(--arena-bg);
   background-attachment: fixed;
   transition: background 0.6s ease;
-  text-align: center;               /* center everything by default */
+  text-align: center;               /* center text by default */
 }
 
-/* Arena mode toggles in your state.js */
+/* Center everything on landing (non‑arena) */
+body:not(.arena-mode) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* When in Arena, switch background */
 body.arena-mode {
   background: var(--arena-image);
+  text-align: initial;              /* reset if you need left‑aligned inside cards */
 }
 
-/* ===== Global Heading ===== */
+/* ===== Global Title ===== */
 h1 {
-  margin: 20px 0;
+  margin: 2rem 0 1rem;
   font-family: var(--font-main);
   font-size: 2.5rem;
   color: var(--accent-blue);
@@ -47,28 +53,31 @@ h1 {
 #selectorContainer {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-end;
   gap: 1rem;
-  margin: 20px auto;
+  margin-bottom: 1.5rem;
 }
 #selectorContainer label {
   display: flex;
   flex-direction: column;
   font-weight: bold;
+  align-items: center;              /* center the label text & select */
 }
 #selectorContainer select {
-  padding: 0.4rem;
+  padding: 0.5rem;
   font-size: 1rem;
+  margin-top: 0.3rem;
 }
 #selectorContainer button {
-  align-self: flex-end;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1.2rem;
+  font-family: var(--font-sans);
 }
 
 /* ===== Debug Output ===== */
 #output {
   max-width: 600px;
-  margin: 0 auto 1rem;
+  width: 90%;
+  margin: 0 auto 2rem;
   background: #fff;
   padding: 10px;
   border: 1px solid #ddd;
@@ -80,6 +89,7 @@ h1 {
 /* ===== Battle Container ===== */
 .battle-container {
   max-width: 800px;
+  width: 90%;
   margin: 3rem auto;
   padding: 20px;
   display: flex;
@@ -91,7 +101,7 @@ h1 {
 
 /* ===== Pokémon Cards ===== */
 .battle-card {
-  width: 200px;
+  flex: 0 0 220px;
   background: var(--card-bg);
   padding: 15px;
   border: 2px solid #222;
@@ -143,8 +153,7 @@ h1 {
 
 /* ===== Reset Button Container ===== */
 #resetContainer {
-  margin: 20px auto;
-  text-align: center;
+  margin: 1.5rem auto;
 }
 
 /* ===== Buttons ===== */
@@ -153,8 +162,6 @@ h1 {
   color: #fff;
   border: none;
   border-radius: 6px;
-  padding: 0.5rem 1rem;
-  font-family: var(--font-sans);
   cursor: pointer;
   transition: background 0.2s ease;
 }
@@ -164,21 +171,25 @@ h1 {
 
 /* ===== Animations ===== */
 @keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-5px); }
+  40%,80% { transform: translateX(5px); }
 }
 @keyframes flash-bg {
-  0%, 100% { background-color: transparent; }
-  50% { background-color: rgba(255, 255, 0, 0.7); }
+  0%,100% { background-color: transparent; }
+  50% { background-color: rgba(255,255,0,0.7); }
 }
-.shake { animation: shake 0.5s ease-in-out; }
-.flash { animation: flash-bg 0.3s ease-in-out; }
+.shake  { animation: shake 0.5s ease-in-out; }
+.flash  { animation: flash-bg 0.3s ease-in-out; }
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
+  body:not(.arena-mode) {
+    padding: 0 1rem;
+  }
   #selectorContainer {
     flex-direction: column;
+    align-items: center;
     gap: 0.5rem;
   }
   .battle-container {
