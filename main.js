@@ -1,4 +1,9 @@
 // main.js
+const selector   = document.getElementById('selectorContainer');
+const battlePane = document.getElementById('battleContainer');
+const output     = document.getElementById('output');
+const log        = document.getElementById('battleLog');
+const resetPane  = document.getElementById('resetContainer');
 
 import { fetchPokemonList, fetchPokemonData } from './services/api.js';
 import { fetchTypeRelations }                from './services/typeService.js';
@@ -36,31 +41,40 @@ async function init() {
   document.getElementById('compareBtn')
     .addEventListener('click', startBattle);
 
-  document.getElementById('resetBtn')
-    .addEventListener('click', () => {
-      exitArena();
-      // Reset HP bars
-      updateHpBar('poke1HpBar', 1);
-      updateHpBar('poke2HpBar', 1);
-      // Hide battle log
-      const log = document.getElementById('battleLog');
-      if (log) log.classList.add('hidden');
+document.getElementById('resetBtn')
+  .addEventListener('click', () => {
+    exitArena();
 
-      showOutput('Select two Pokémon and click "Start Battle".');
-      ['pokemon1', 'pokemon2'].forEach(id => {
-        const sel = document.getElementById(id);
-        if (sel) sel.selectedIndex = 0;
-      });
+    // 1) hide everything
+    battlePane.classList.add('hidden');
+    log.classList.add('hidden');
+    output.classList.add('hidden');
+    resetPane.classList.add('hidden');
+
+    // 2) show selector again
+    selector.classList.remove('hidden');
+
+    // 3) reset HP bars & dropdowns as you already do
+    updateHpBar('poke1HpBar', 1);
+    updateHpBar('poke2HpBar', 1);
+    showOutput('Select two Pokémon and click "Start Battle".');
+    ['pokemon1', 'pokemon2'].forEach(id => {
+      document.getElementById(id).selectedIndex = 0;
     });
-}
+  });
+
 
 async function startBattle() {
+  // 0) toggle visibility
+  selector.classList.add('hidden');
+  output.classList.remove('hidden');
+  battlePane.classList.remove('hidden');
+  log.classList.remove('hidden');
+
   const p1name = document.getElementById('pokemon1').value;
   const p2name = document.getElementById('pokemon2').value;
-  if (!p1name || !p2name) {
-    showOutput('Please select both Pokémon.');
-    return;
-  }
+  // … rest of your existing code
+
 
   showOutput(`Loading ${p1name} vs ${p2name}…`);
   try {

@@ -109,26 +109,18 @@ nav a.active {
 }
 
 /* ===== Battle Arena ===== */
-#battleContainer {
+.battle-container {
   display: flex;
   justify-content: space-around;
-  align-items: flex-start;
+  align-items: flex-end;       /* stick cards to the bottom */
   flex-wrap: wrap;
-  margin-bottom: 1.5rem;
+  width: 90%;
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  /* give it height so the bottom aligns halfway down the viewport */
+  height: 60vh;
 }
-.battle-card {
-  position: relative;
-  width: 200px;
-  margin: 1rem;
-  text-align: center;
-}
-.battle-card h2 {
-  margin: 0.5rem 0;
-  font-family: var(--font-title);
-  text-transform: capitalize;
-  font-size: 1.2rem;
-  color: #fff;
-}
+
 
 /* Sprite & Effects (unchanged) */
 .sprite-container {
@@ -247,6 +239,10 @@ nav a.active {
   max-width: 400px;
   text-align: left;
 }
+
+/* ===== Utility ===== */
+.hidden { display: none !important; }
+
 
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
