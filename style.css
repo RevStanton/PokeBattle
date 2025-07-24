@@ -1,9 +1,8 @@
 /* ===== Variables & Global ===== */
 :root {
-  --arena-bg: linear-gradient(to bottom, #74ebd5, #acb6e5);
+  --arena-bg: linear-gradient(135deg, #74ebd5 0%, #acb6e5 100%);
   --arena-image: url('images/arena.jpg') center/cover no-repeat fixed;
-  --card-bg: rgba(255,255,255,0.0);
-  --panel-bg: rgba(0,0,0,0.7);
+
   --accent-red: #ff1c1c;
   --accent-yellow: #ffde59;
   --accent-blue: #3b4cca;
@@ -11,250 +10,266 @@
   --font-sans: 'Verdana', sans-serif;
 }
 
-/* ===== Utility ===== */
-.hidden { display: none !important; }
-body { margin:0; padding:0; font-family:var(--font-sans); color:#222;
-       background:var(--arena-bg); background-attachment:fixed;
-       transition:background 0.6s ease; text-align:center;
-       display:flex; flex-direction:column; min-height:100vh;
+/* ===== Reset & Base ===== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
-body.arena-mode { background:var(--arena-image); }
-
-/* ===== Global Title ===== */
-h1 {
-  margin:1.5rem 0 1rem;
-  font-family:var(--font-main); color:var(--accent-blue);
-  text-shadow:2px 2px var(--accent-yellow);
-  font-size:2.5rem;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background: var(--arena-bg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  transition: background 0.6s ease;
+}
+body.arena-mode {
+  background: var(--arena-image);
 }
 
-/* ===== Selector / Landing ===== */
+/* ===== Header & Navigation ===== */
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--accent-blue);
+  padding: 1rem 2rem;
+  flex-wrap: wrap;
+}
+header h1 {
+  margin: 0;
+  font-family: var(--font-main);
+  color: var(--accent-yellow);
+  text-shadow: 2px 2px var(--accent-red);
+  font-size: 2.5rem;
+  flex: 1 1 auto;
+}
+nav {
+  display: flex;
+  gap: 1rem;
+  flex: 1 1 auto;
+  justify-content: flex-end;
+}
+nav a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  transition: background 0.3s;
+}
+nav a:hover,
+nav a.active {
+  background: var(--accent-yellow);
+  color: var(--accent-blue);
+}
+
+/* ===== Main Content Wrapper ===== */
+.main-content {
+  width: 100%;
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* ===== Selector / Landing (Battle) ===== */
 #selectorContainer {
-  display:flex; justify-content:center; align-items:flex-end;
-  gap:1rem; margin-bottom:1.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
 }
 #selectorContainer label {
-  display:flex; flex-direction:column; align-items:center;
-  font-weight:bold;
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
 }
-#selectorContainer select {
-  margin-top:0.3rem; padding:0.5rem; font-size:1rem;
-}
+#selectorContainer select,
 #selectorContainer button {
-  padding:0.6rem 1.2rem;
+  padding: 0.5rem;
+  font-size: 1rem;
 }
 
 /* ===== Debug Output ===== */
 #output {
-  max-width:600px; width:90%; margin:0 auto 2rem;
-  background:#fff; padding:10px; border:1px solid #ddd;
-  font-family:monospace; text-align:left; min-height:2em;
+  max-width: 600px;
+  width: 90%;
+  margin: 0 auto 2rem;
+  background: #fff;
+  padding: 10px;
+  border: 1px solid #ddd;
+  font-family: monospace;
+  text-align: left;
+  min-height: 2em;
 }
 
 /* ===== Battle Container ===== */
 .battle-container {
-  display:flex; justify-content:space-around; align-items:flex-start;
-  flex-wrap:wrap;
-  width:90%; max-width:900px; margin:0 auto; padding-bottom:3rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
-
-/* ===== Pokémon Card ===== */
 .battle-card {
-  position:relative; width:200px; margin:1rem;
-  background:none; text-align:center; color:#fff;
+  position: relative;
+  width: 150px;
+  margin: 1rem;
+  text-align: center;
 }
 .battle-card h2 {
-  margin:0.5rem 0; font-family:var(--font-main);
-  text-transform:capitalize; font-size:1.2rem;
-}
-/* --- search panel --- */
-.info-page .search-panel {
-  display: flex;
-  gap: .5rem;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 1rem 0;
-}
-.info-page .search-panel input {
-  flex: 1 1 200px;
-  padding: .5rem;
-}
-.info-page .search-panel button {
-  padding: .5rem 1rem;
+  margin: 0.5rem 0;
+  font-family: var(--font-main);
+  text-transform: capitalize;
+  color: var(--accent-yellow);
+  text-shadow: 1px 1px var(--accent-red);
 }
 
-/* --- detail card --- */
+/* Sprite & Effects (unchanged) */
+.sprite-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  margin: 0 auto;
+}
+.pokemon-sprite {
+  width: 100%;
+  height: 100%;
+}
+.effect-layer {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ===== Floating Damage ===== */
+.damage-number {
+  position: absolute;
+  font-family: var(--font-main);
+  font-size: 1rem;
+  color: var(--accent-yellow);
+  text-shadow: 1px 1px #000;
+  animation: float-up 1s ease-out forwards;
+}
+@keyframes float-up {
+  to { transform: translateY(-50px); opacity: 0; }
+}
+
+/* ===== HP Bars ===== */
+.hp-bar {
+  position: absolute;
+  bottom: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 80%; height: 14px;
+  background: #444;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+.hp-fill {
+  height: 100%;
+  width: 100%;
+  background: #4caf50;
+  transition: width 0.6s ease;
+}
+
+/* ===== Battle Log ===== */
+#battleLog {
+  width: 90%;
+  max-width: 900px;
+  margin: 1rem auto;
+  background: rgba(0,0,0,0.7);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: monospace;
+  line-height: 1.4;
+  max-height: 30vh;
+  overflow-y: auto;
+}
+#battleLog.hidden { display: none !important; }
+.log-entry { margin-bottom: 0.4rem; font-size: 0.9rem; }
+
+/* ===== Bounce & Flash ===== */
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50%     { transform: translateY(-15px); }
+}
+.bounce { animation: bounce 0.6s ease-in-out; }
+
+@keyframes flash-bg {
+  0%,100% { background-color: transparent; }
+  50%     { background-color: rgba(255,255,0,0.7); }
+}
+.flash { animation: flash-bg 0.3s ease-in-out; }
+
+/* ===== Reset & Buttons ===== */
+#resetContainer { margin-top: auto; padding: 1rem 0; }
+.button {
+  background: var(--accent-red);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+.button:hover { background: #e60000; }
+
+/* ===== Pokedex Page ===== */
+.info-page .search-panel {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+}
+.info-page .search-panel input,
+.info-page .search-panel button {
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
 .poke-card {
   background: #fff;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.1);
   padding: 1rem;
-  margin-top: 1rem;
+  margin: 0 auto 2rem;
   max-width: 400px;
-  width: 100%;
-}
-.poke-header {
-  text-align: center;
-}
-.poke-header img {
-  width: 120px;
-  height: auto;
-}
-.poke-meta p {
-  margin: .25rem 0;
-}
-.poke-stats {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: .75rem;
-}
-.poke-stats th,
-.poke-stats td {
-  border: 1px solid #ddd;
-  padding: .25rem .5rem;
-  text-transform: capitalize;
-}
-.poke-moves {
-  margin-top: .75rem;
-}
-.poke-moves ul {
-  list-style: disc;
-  margin: .5rem 0 0 1.25rem;
+  text-align: left;
 }
 
-/* ===== Sprite & Effects ===== */
-.sprite-container {
-  position:relative; width:150px; height:150px; margin:0 auto;
-}
-.pokemon-sprite {
-  width:100%; height:100%;
-}
-.effect-layer {
-  position:absolute; top:0; left:0; width:100%; height:100%;
-  pointer-events:none;
-}
-
-/* ===== Floating Damage ===== */
-.damage-number {
-  position:absolute; font-family:var(--font-main);
-  font-size:1rem; color:var(--accent-yellow);
-  text-shadow:1px 1px #000; opacity:1;
-  animation:float-up 1s ease-out forwards;
-}
-@keyframes float-up {
-  to { transform:translateY(-50px); opacity:0; }
-}
-
-/* ===== HP Bars ===== */
-.hp-bar {
-  position:absolute; bottom:0; left:50%; transform:translateX(-50%);
-  width:80%; height:14px; background:#444; border-radius:8px;
-  overflow:hidden; margin-top:0.5rem;
-}
-.hp-fill {
-  height:100%; width:100%; background:#4caf50;
-  transition:width 0.6s ease;
-}
-
-/* ===== Battle Log ===== */
-.battle-log {
-  width:90%; max-width:900px; margin:1rem auto;
-  background:var(--panel-bg); color:#fff; padding:1rem;
-  border-radius:8px; font-family:monospace; line-height:1.4;
-  max-height:30vh; overflow-y:auto;
-}
-.battle-log.hidden { display:none !important; }
-.battle-log .log-entry { margin-bottom:0.4rem; font-size:0.9rem; }
-
-/* ===== Bounce & Flash ===== */
-@keyframes bounce {
-  0%,100% { transform:translateY(0); }
-  50%     { transform:translateY(-15px); }
-}
-.bounce { animation:bounce 0.6s ease-in-out; }
-
-@keyframes flash-bg {
-  0%,100% { background-color:transparent; }
-  50%     { background-color:rgba(255,255,0,0.7); }
-}
-.flash { animation:flash-bg 0.3s ease-in-out; }
-
-/* ===== Reset Button ===== */
-#resetContainer { margin-top:auto; padding:1rem 0; }
-
-/* ===== Buttons ===== */
-.button {
-  background:var(--accent-red); color:#fff; border:none; border-radius:6px;
-  cursor:pointer; transition:background 0.2s ease;
-  font-size:1rem; padding:0.5rem 1rem;
-}
-.button:hover { background:#e60000; }
-
-/* ===== Responsive (≤768px) ===== */
-/* ===== Mobile Overrides (≤768px) ===== */
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
-  /* 1) Selector area: labels & selects full-width, box-sized */
-  #selectorContainer {
+  header {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-    width: 100%;
+    text-align: center;
+  }
+  .main-content {
     padding: 0 1rem;
   }
-  #selectorContainer label {
-    width: 100%;
-    align-items: flex-start;
-    text-align: left;
+  #selectorContainer,
+  .info-page .search-panel {
+    flex-direction: column;
+    align-items: center;
   }
-  #selectorContainer select {
-    width: 100%;
-    box-sizing: border-box;
-    font-size: 1rem;
-  }
-  #selectorContainer button {
-    width: 100%;
-    max-width: none;
-  }
-
-  /* 2) Battle cards: side-by-side, two per row */
   .battle-container {
-    flex-direction: row;        /* back to row */
-    flex-wrap: wrap;            /* allow wrap if too tight */
-    justify-content: space-around;
-    padding: 0 1rem 2rem;
-    width: 100%;
+    flex-direction: column;
   }
   .battle-card {
-    flex: 0 1 45%;              /* each takes ~45% of screen */
-    max-width: 180px;
-    margin: 1rem 0.5rem;
+    width: 60%;
+    margin: 1rem auto;
   }
-
-  /* shrink sprites so two fit cleanly */
   .sprite-container {
     width: 80px;
     height: 80px;
   }
-  .battle-card h2 {
+  #battleLog {
     font-size: 0.9rem;
-  }
-  .hp-bar {
-    width: 90%;
-    height: 10px;
-  }
-
-  /* 3) Log & Reset: easy to scroll & tap */
-  .battle-log {
-    max-height: 30vh;
-    font-size: 0.75rem;
-    padding: 0.6rem;
-    margin: 1rem auto;
-  }
-  #resetContainer .button {
-    width: 90%;
-    max-width: none;
-    margin: 0.5rem auto;
-    font-size: 1.1rem;
-    padding: 0.75rem;
   }
 }
