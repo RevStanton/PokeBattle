@@ -83,7 +83,10 @@ async function init() {
       // render and fight
       renderBattleScreen(p1, p2);
       enterArena();
-      simulateBattle(
+      // pause for 1 second before the first hit
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        simulateBattle(
         p1, p2, typeMap,
         (att, def, dmg, hp1, hp2, max1, max2) => {
           logBattle(`${capitalize(att.name)} hits ${capitalize(def.name)} for ${dmg} damage`);
