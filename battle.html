@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>PokéBattle Simulator</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body class="arena-mode">
+  <header>
+    <h1>Battle Simulator</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pokemon-info.html">Pokédex</a>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <div id="selectorContainer">
+      <label>
+        Your Pokémon:
+        <select id="pokemon1"></select>
+      </label>
+      <label>
+        Opponent:
+        <select id="pokemon2"></select>
+      </label>
+      <button id="compareBtn" class="button">Start Battle</button>
+    </div>
+
+    <pre id="output">Select two Pokémon and click "Start Battle".</pre>
+
+    <div id="battleContainer" class="battle-container">
+      <div class="battle-card" data-pokemon="p1">
+        <div class="sprite-container">
+          <img id="poke1Img" class="pokemon-sprite" src="" alt=""/>
+          <div class="effect-layer"></div>
+        </div>
+        <h2 id="poke1Name"></h2>
+        <div class="hp-bar"><div id="poke1HpBar" class="hp-fill"></div></div>
+      </div>
+      <div class="battle-card" data-pokemon="p2">
+        <div class="sprite-container">
+          <img id="poke2Img" class="pokemon-sprite" src="" alt=""/>
+          <div class="effect-layer"></div>
+        </div>
+        <h2 id="poke2Name"></h2>
+        <div class="hp-bar"><div id="poke2HpBar" class="hp-fill"></div></div>
+      </div>
+    </div>
+
+    <div id="battleLog" class="battle-log"></div>
+
+    <div id="resetContainer">
+      <button id="resetBtn" class="button">New Battle</button>
+    </div>
+  </main>
+
+  <script type="module" src="./main.js"></script>
+</body>
+</html>
