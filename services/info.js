@@ -97,32 +97,24 @@ document.addEventListener('DOMContentLoaded', () => {
       detailsContainer.innerHTML = '<p>Error loading data.</p>';
     }
   });
-// 5) on “View Details”, fetch everything in parallel
+
+ // 5) On “View Details”, fetch data & abilities
   viewBtn.addEventListener('click', async () => {
     const name = searchInput.value.trim().toLowerCase();
     if (!name) return alert('Please select a Pokémon.');
     detailsContainer.innerHTML = '<p>Loading…</p>';
 
     try {
-      const [baseData, speciesData] = await Promise.all([
-        fetchPokemonData(name),
-        fetchPokemonSpecies(name)
-      ]);
-
-      // fetch each ability’s info
+      const baseData = await fetchPokemonData(name);
       const abilityDetails = await Promise.all(
         baseData.abilities.map(ab => fetchAbilityInfo(ab))
       );
-
-      renderPokemonInfo({
-        ...baseData,
-        ...speciesData,
-        abilityDetails
-      });
+      renderPokemonInfo({ ...baseData, abilityDetails });
     } catch (err) {
       console.error(err);
       detailsContainer.innerHTML = '<p>Error loading data.</p>';
     }
   });
 });
+
 

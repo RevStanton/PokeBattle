@@ -3,32 +3,26 @@ const API_BASE = 'https://pokeapi.co/api/v2';
 let _pokemonListCache = null;
 
 /**
- * Fetches the full list of Pokémon names (cached).
+ * Fetches & caches the full list of Pokémon names.
  * @returns {Promise<string[]>}
  */
 export async function fetchPokemonList() {
   if (_pokemonListCache) return _pokemonListCache;
-  const url = `${API_BASE}/pokemon?limit=2000`;
-  const res = await fetch(url);
-  if (!res.ok) {
-    throw new Error(`Failed to fetch Pokémon list (status ${res.status})`);
-  }
+  const res = await fetch(`${API_BASE}/pokemon?limit=2000`);
+  if (!res.ok) throw new Error(`Failed to fetch Pokémon list (status ${res.status})`);
   const { results } = await res.json();
   _pokemonListCache = results.map(p => p.name);
   return _pokemonListCache;
 }
 
 /**
- * Fetches a single Pokémon's full data.
- * @param {string|number} nameOrId - Pokémon name or ID
- * @returns {Promise<Object>}
+ * Fetches a single Pokémon's core data.
+ * @param {string|number} nameOrId
  */
 export async function fetchPokemonData(nameOrId) {
-  const identifier = String(nameOrId).toLowerCase();
-  const res = await fetch(`${API_BASE}/pokemon/${identifier}`);
-  if (!res.ok) {
-    throw new Error(`Pokémon "${identifier}" not found (status ${res.status})`);
-  }
+  const id = String(nameOrId).toLowerCase();
+  const res = await fetch(`${API_BASE}/pokemon/${id}`);
+  if (!res.ok) throw new Error(`Pokémon "${id}" not found (status ${res.status})`);
   const data = await res.json();
   const stats = data.stats.reduce((acc, { stat, base_stat }) => {
     acc[stat.name] = base_stat;
@@ -52,47 +46,19 @@ export async function fetchPokemonData(nameOrId) {
 }
 
 /**
- * Fetch species info: flavor text, genus, habitat, growth rate, evolution chain URL
+ * Fetches ability info: short effect & flavor text
+ * @param {string} nameOrId
  */
-export async function fetchPokemonSpecies(nameOrId) {
-  const id = String(nameOrId).toLowerCase();
-  const res = await fetch(`${API_BASE}/pokemon-species/${id}`);
-  if (!res.ok) throw new Error(`Species for "${id}" not found (status ${res.status})`);
-  const sp = await res.json();
-
-  // pick first English flavor text & genus
-  const flavor = sp.flavor_text_entries
-    .find(e => e.language.name === 'en')?.flavor_text
-    .replace(/[\n\f]/g, ' ') || '';
-  const genus = sp.genera
-    .find(g => g.language.name === 'en')?.genus || '';
-
-  return {
-    description: flavor,
-    genus,
-    habitat: sp.habitat?.name || '',
-    growth_rate: sp.growth_rate?.name || '',
-    evolution_chain_url: sp.evolution_chain?.url || ''
-  };
-}
-
-/** Fetches the /ability data (short effect & flavor text) */
 export async function fetchAbilityInfo(nameOrId) {
   const id = String(nameOrId).toLowerCase();
   const res = await fetch(`${API_BASE}/ability/${id}`);
-  if (!res.ok) throw new Error(`Ability "${id}" not found (${res.status})`);
+  if (!res.ok) throw new Error(`Ability "${id}" not found (status ${res.status})`);
   const ab = await res.json();
 
-  const shortEffect = ab.effect_entries
-    .find(e => e.language.name === 'en')?.short_effect || '';
+  const effect = ab.effect_entries.find(e => e.language.name === 'en')?.short_effect || '';
+  const flavor = ab.flavor_text_entries
+    .find(e => e.language.name === 'en')
+    ?.flavor_text.replace(/[\n\f]/g, ' ') || '';
 
-  const flavorText = ab.flavor_text_entries
-    .find(e => e.language.name === 'en')?.flavor_text
-    .replace(/[\n\f]/g, ' ') || '';
-
-  return {
-    name: ab.name,
-    effect: shortEffect,
-    flavor: flavorText
-  };
+  return { name: ab.name, effect, flavor };
 }
