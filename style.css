@@ -67,6 +67,60 @@ h1 {
   margin:0.5rem 0; font-family:var(--font-main);
   text-transform:capitalize; font-size:1.2rem;
 }
+/* --- search panel --- */
+.info-page .search-panel {
+  display: flex;
+  gap: .5rem;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 1rem 0;
+}
+.info-page .search-panel input {
+  flex: 1 1 200px;
+  padding: .5rem;
+}
+.info-page .search-panel button {
+  padding: .5rem 1rem;
+}
+
+/* --- detail card --- */
+.poke-card {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem;
+  margin-top: 1rem;
+  max-width: 400px;
+  width: 100%;
+}
+.poke-header {
+  text-align: center;
+}
+.poke-header img {
+  width: 120px;
+  height: auto;
+}
+.poke-meta p {
+  margin: .25rem 0;
+}
+.poke-stats {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: .75rem;
+}
+.poke-stats th,
+.poke-stats td {
+  border: 1px solid #ddd;
+  padding: .25rem .5rem;
+  text-transform: capitalize;
+}
+.poke-moves {
+  margin-top: .75rem;
+}
+.poke-moves ul {
+  list-style: disc;
+  margin: .5rem 0 0 1.25rem;
+}
 
 /* ===== Sprite & Effects ===== */
 .sprite-container {
