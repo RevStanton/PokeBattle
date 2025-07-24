@@ -1,45 +1,52 @@
 // services/api.js
 const API_BASE = 'https://pokeapi.co/api/v2';
+let _pokemonListCache = null;
 
 /**
- * Fetches the full list of Pokémon names.
+ * Fetches the full list of Pokémon names (cached).
+ * @returns {Promise<string[]>}
  */
 export async function fetchPokemonList() {
-  // 1) get the total count
-  const infoRes = await fetch(`${API_BASE}/pokemon?limit=1`);
-  if (!infoRes.ok) throw new Error('Failed to fetch Pokémon count');
-  const infoData = await infoRes.json();
-  const total = infoData.count;
-
-  // 2) fetch them all in one go
-  const listRes = await fetch(`${API_BASE}/pokemon?limit=${total}&offset=0`);
-  if (!listRes.ok) throw new Error('Failed to fetch full Pokémon list');
-  const listData = await listRes.json();
-
-  // return just the names
-  return listData.results.map(p => p.name);
+  if (_pokemonListCache) return _pokemonListCache;
+  const url = `${API_BASE}/pokemon?limit=2000`;
+  const res = await fetch(url);
+  if (!res.ok) {
+    throw new Error(`Failed to fetch Pokémon list (status ${res.status})`);
+  }
+  const { results } = await res.json();
+  _pokemonListCache = results.map(p => p.name);
+  return _pokemonListCache;
 }
 
 /**
- * Fetch a single Pokémon’s data (unchanged)
+ * Fetches a single Pokémon's full data.
+ * @param {string|number} nameOrId - Pokémon name or ID
+ * @returns {Promise<Object>}
  */
-export async function fetchPokemonData(name) {
-  const res = await fetch(`${API_BASE}/pokemon/${name.toLowerCase()}`);
-  if (!res.ok) throw new Error(`Pokémon "${name}" not found`);
+export async function fetchPokemonData(nameOrId) {
+  const identifier = String(nameOrId).toLowerCase();
+  const res = await fetch(`${API_BASE}/pokemon/${identifier}`);
+  if (!res.ok) {
+    throw new Error(`Pokémon "${identifier}" not found (status ${res.status})`);
+  }
   const data = await res.json();
-
-  const stats = data.stats.reduce((acc, s) => {
-    acc[s.stat.name] = s.base_stat;
+  const stats = data.stats.reduce((acc, { stat, base_stat }) => {
+    acc[stat.name] = base_stat;
     return acc;
   }, {});
 
   return {
+    id: data.id,
     name: data.name,
-    types: data.types.map(t => t.type.name),
+    types: data.types.map(({ type }) => type.name),
+    abilities: data.abilities.map(({ ability }) => ability.name),
+    height: data.height,
+    weight: data.weight,
+    moves: data.moves.map(({ move }) => move.name),
     stats,
     sprites: {
-      front_default: data.sprites.front_default,
-      official: data.sprites.other?.['official-artwork']?.front_default || ''
+      frontDefault: data.sprites.front_default,
+      officialArtwork: data.sprites.other?.['official-artwork']?.front_default || ''
     }
   };
 }

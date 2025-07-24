@@ -7,9 +7,14 @@
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h1>PokéBattle Mini</h1>
-  a href="pokemon-info.html">Pokédex</a>
-  
++ <header class="site-header">
++   <h1>PokéBattle Mini</h1>
++   <nav class="main-nav">
++     <a href="index.html">Battle</a>
++     <a href="pokemon-info.html">Pokédex</a>
++   </nav>
++ </header>
+
   <!-- Selector / Landing View -->
   <div id="selectorContainer" class="selector">
     <label>
@@ -55,6 +60,9 @@
     <button id="resetBtn" class="button">New Battle</button>
   </div>
 
+  <!-- your main battle logic -->
   <script type="module" src="./main.js"></script>
++ <!-- your Pokédex page logic (only executes if the DOM matches info.js’s queries) -->
++ <script type="module" src="./js/info.js"></script>
 </body>
 </html>
