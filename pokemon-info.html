@@ -21,14 +21,16 @@
       id="pokemon-search"
       list="pokemon-list"
       placeholder="Search Pokémon…"
+      autocomplete="off"
     />
     <datalist id="pokemon-list"></datalist>
     <button id="view-btn">View Details</button>
 
+    <!-- where details render -->
     <section id="pokemon-details"></section>
   </main>
 
   <!-- only on this page: -->
-  <script type="module" src="./info.js"></script>
+  <script type="module" src="./services/info.js"></script>
 </body>
 </html>
