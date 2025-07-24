@@ -31,6 +31,7 @@ async function init() {
 
   try {
     const list = await fetchPokemonList();
+    console.log('Pokémon list:', list.slice(0, 10), '…(', list.length, 'total)');
     populateDropdown('pokemon1', list);
     populateDropdown('pokemon2', list);
   } catch (err) {
@@ -151,4 +152,6 @@ async function startBattle() {
   }
 }
 
-init();
++ // wait until the DOM is ready, then initialize
++ document.addEventListener('DOMContentLoaded', init);
+}

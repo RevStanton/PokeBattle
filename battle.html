@@ -3,36 +3,42 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>PokéBattle Mini</title>
+  <title>PokéBattle Simulator</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <!-- Header & Nav -->
   <header>
     <h1>PokéBattle Mini</h1>
     <nav>
-      <a href="index.html" class="active">Battle</a>
+      <a href="index.html">Home</a>
       <a href="pokemon-info.html">Pokédex</a>
     </nav>
   </header>
 
+  <!-- Main Battle UI -->
   <main class="main-content">
-    <!-- 1) Always‑visible selector -->
+    <!-- 1) Selector (always visible) -->
     <div id="selectorContainer">
       <label>
         Your Pokémon:
-        <select id="pokemon1"></select>
+        <select id="pokemon1">
+          <option value="">— Select —</option>
+        </select>
       </label>
       <label>
         Opponent:
-        <select id="pokemon2"></select>
+        <select id="pokemon2">
+          <option value="">— Select —</option>
+        </select>
       </label>
       <button id="compareBtn" class="button">Start Battle</button>
     </div>
 
-    <!-- 2) Debug/output (hidden until you remove the class in JS) -->
-    <pre id="output" class="hidden">Select two Pokémon and click "Start Battle".</pre>
+    <!-- 2) Output log (hidden until start) -->
+    <pre id="output" class="hidden"></pre>
 
-    <!-- 3) Arena & Sprites (also hidden) -->
+    <!-- 3) Arena + sprites (hidden until start) -->
     <div id="battleContainer" class="battle-container hidden">
       <div class="battle-card" data-pokemon="p1">
         <div class="sprite-container">
@@ -52,7 +58,7 @@
       </div>
     </div>
 
-    <!-- 4) Battle log & reset (also hidden by default) -->
+    <!-- 4) Battle log & reset (hidden until end) -->
     <div id="battleLog" class="battle-log hidden"></div>
     <div id="resetContainer" class="hidden">
       <button id="resetBtn" class="button">New Battle</button>
