@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
   let allPokemon = [];
   fetchPokemonList().then(names => (allPokemon = names)).catch(() => alert('Pokédex offline.'));
 
-  // live‐filter
+  // 4) live‐filter
   searchInput.addEventListener('input', () => {
     const q = searchInput.value.trim().toLowerCase();
     datalist.innerHTML = !q
@@ -97,4 +97,32 @@ document.addEventListener('DOMContentLoaded', () => {
       detailsContainer.innerHTML = '<p>Error loading data.</p>';
     }
   });
+// 5) on “View Details”, fetch everything in parallel
+  viewBtn.addEventListener('click', async () => {
+    const name = searchInput.value.trim().toLowerCase();
+    if (!name) return alert('Please select a Pokémon.');
+    detailsContainer.innerHTML = '<p>Loading…</p>';
+
+    try {
+      const [baseData, speciesData] = await Promise.all([
+        fetchPokemonData(name),
+        fetchPokemonSpecies(name)
+      ]);
+
+      // fetch each ability’s info
+      const abilityDetails = await Promise.all(
+        baseData.abilities.map(ab => fetchAbilityInfo(ab))
+      );
+
+      renderPokemonInfo({
+        ...baseData,
+        ...speciesData,
+        abilityDetails
+      });
+    } catch (err) {
+      console.error(err);
+      detailsContainer.innerHTML = '<p>Error loading data.</p>';
+    }
+  });
 });
+

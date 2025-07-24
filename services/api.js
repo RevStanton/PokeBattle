@@ -75,3 +75,24 @@ export async function fetchPokemonSpecies(nameOrId) {
     evolution_chain_url: sp.evolution_chain?.url || ''
   };
 }
+
+/** Fetches the /ability data (short effect & flavor text) */
+export async function fetchAbilityInfo(nameOrId) {
+  const id = String(nameOrId).toLowerCase();
+  const res = await fetch(`${API_BASE}/ability/${id}`);
+  if (!res.ok) throw new Error(`Ability "${id}" not found (${res.status})`);
+  const ab = await res.json();
+
+  const shortEffect = ab.effect_entries
+    .find(e => e.language.name === 'en')?.short_effect || '';
+
+  const flavorText = ab.flavor_text_entries
+    .find(e => e.language.name === 'en')?.flavor_text
+    .replace(/[\n\f]/g, ' ') || '';
+
+  return {
+    name: ab.name,
+    effect: shortEffect,
+    flavor: flavorText
+  };
+}

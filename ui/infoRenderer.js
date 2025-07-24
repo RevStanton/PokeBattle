@@ -22,6 +22,17 @@ export function renderPokemonInfo(p) {
     ${genus ? `<p class="poke-genus">${genus}</p>` : ''}
     ${description ? `<p class="poke-desc">${description}</p>` : ''}
 
+    <div class="poke-abilities">
+      <h3>Abilities</h3>
+      ${abilityDetails.map(a => `
+        <div class="ability">
+          <h4>${a.name.replace('-', ' ')}</h4>
+          ${a.effect ? `<p>${a.effect}</p>` : ''}
+          ${a.flavor ? `<p class="flavor">${a.flavor}</p>` : ''}
+        </div>
+      `).join('')}
+    </div>
+    
     <div class="poke-meta">
       <p><strong>Types:</strong> ${types.join(', ')}</p>
       <p><strong>Abilities:</strong> ${abilities.join(', ')}</p>
