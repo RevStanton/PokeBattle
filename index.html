@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <title>PokéBattle Mini</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
+  <!-- ===== Header & Nav ===== -->
   <header>
     <h1>PokéBattle Mini</h1>
     <nav>
@@ -15,7 +16,8 @@
     </nav>
   </header>
 
-  <div class="main-content">
+  <!-- ===== Main Content ===== -->
+  <main class="main-content">
     <!-- Selector / Landing View -->
     <div id="selectorContainer">
       <label>
@@ -29,9 +31,10 @@
       <button id="compareBtn" class="button">Start Battle</button>
     </div>
 
-    <pre id="output">Select two Pokémon and click "Start Battle".</pre>
+    <!-- Placeholder / Debug output (hidden until your JS shows it) -->
+    <pre id="output" class="hidden">Select two Pokémon and click "Start Battle".</pre>
 
-    <!-- Arena Battle View -->
+    <!-- Arena Battle View (hidden until battle starts) -->
     <div id="battleContainer" class="battle-container hidden">
       <div class="battle-card" data-pokemon="p1">
         <div class="sprite-container">
@@ -51,14 +54,16 @@
       </div>
     </div>
 
+    <!-- Battle Log (also hidden until battle starts) -->
     <div id="battleLog" class="battle-log hidden"></div>
 
-    <!-- Reset / New Battle -->
+    <!-- Reset / New Battle button -->
     <div id="resetContainer" class="hidden">
       <button id="resetBtn" class="button">New Battle</button>
     </div>
-  </div>
+  </main>
 
+  <!-- Your battle simulation logic -->
   <script type="module" src="./main.js"></script>
 </body>
 </html>
