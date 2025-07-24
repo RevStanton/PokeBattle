@@ -50,3 +50,28 @@ export async function fetchPokemonData(nameOrId) {
     }
   };
 }
+
+/**
+ * Fetch species info: flavor text, genus, habitat, growth rate, evolution chain URL
+ */
+export async function fetchPokemonSpecies(nameOrId) {
+  const id = String(nameOrId).toLowerCase();
+  const res = await fetch(`${API_BASE}/pokemon-species/${id}`);
+  if (!res.ok) throw new Error(`Species for "${id}" not found (status ${res.status})`);
+  const sp = await res.json();
+
+  // pick first English flavor text & genus
+  const flavor = sp.flavor_text_entries
+    .find(e => e.language.name === 'en')?.flavor_text
+    .replace(/[\n\f]/g, ' ') || '';
+  const genus = sp.genera
+    .find(g => g.language.name === 'en')?.genus || '';
+
+  return {
+    description: flavor,
+    genus,
+    habitat: sp.habitat?.name || '',
+    growth_rate: sp.growth_rate?.name || '',
+    evolution_chain_url: sp.evolution_chain?.url || ''
+  };
+}
