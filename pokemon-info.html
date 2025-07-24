@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
   <title>Pokédex</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <header>
@@ -15,24 +15,20 @@
     </nav>
   </header>
 
-  <main class="info-page">
-    <section class="search-panel">
-      <input 
-        type="text" 
-        id="pokemon-search" 
-        list="pokemon-list" 
-        placeholder="Search Pokémon by name…" 
-        autocomplete="off"
-      />
-      <datalist id="pokemon-list"></datalist>
-      <button id="view-btn">View Details</button>
-    </section>
+  <main>
+    <input
+      type="text"
+      id="pokemon-search"
+      list="pokemon-list"
+      placeholder="Search Pokémon…"
+    />
+    <datalist id="pokemon-list"></datalist>
+    <button id="view-btn">View Details</button>
 
-    <section id="pokemon-details" class="pokemon-details">
-      <!-- renderPokemonInfo will populate this -->
-    </section>
+    <section id="pokemon-details"></section>
   </main>
 
-  <script type="module" src="js/info.js"></script>
+  <!-- only on this page: -->
+  <script type="module" src="./js/info.js"></script>
 </body>
 </html>
