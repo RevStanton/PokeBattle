@@ -62,3 +62,29 @@ export async function fetchAbilityInfo(nameOrId) {
 
   return { name: ab.name, effect, flavor };
 }
+
+/**
+ * Fetches the /pokemon-species data (flavor text, genus, habitat, growth rate).
+ */
+export async function fetchPokemonSpecies(nameOrId) {
+  const id = String(nameOrId).toLowerCase();
+  const res = await fetch(`${API_BASE}/pokemon-species/${id}`);
+  if (!res.ok) throw new Error(`Species for "${id}" not found (status ${res.status})`);
+  const sp = await res.json();
+
+  // pick the first English entries
+  const description = sp.flavor_text_entries
+    .find(e => e.language.name === 'en')
+    ?.flavor_text
+    .replace(/[\n\f]/g, ' ') || '';
+
+  const genus = sp.genera
+    .find(g => g.language.name === 'en')?.genus || '';
+
+  return {
+    description,
+    genus,
+    habitat: sp.habitat?.name || '',
+    growth_rate: sp.growth_rate?.name || ''
+  };
+}
