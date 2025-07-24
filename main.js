@@ -1,10 +1,3 @@
-// main.js
-const selector   = document.getElementById('selectorContainer');
-const battlePane = document.getElementById('battleContainer');
-const output     = document.getElementById('output');
-const log        = document.getElementById('battleLog');
-const resetPane  = document.getElementById('resetContainer');
-
 import { fetchPokemonList, fetchPokemonData } from './services/api.js';
 import { fetchTypeRelations }                from './services/typeService.js';
 import { simulateBattle }                    from './services/battleEngine.js';
@@ -21,41 +14,106 @@ import {
 import { animateBounce, animateHpBar }       from './ui/animations.js';
 import { enterArena, exitArena }             from './ui/state.js';
 
-/** Capitalize a string’s first letter */
 function capitalize(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
 async function init() {
+  // grab UI elements for toggling
+  const selectorContainer = document.getElementById('selectorContainer');
+  const output            = document.getElementById('output');
+  const battleContainer   = document.getElementById('battleContainer');
+  const battleLog         = document.getElementById('battleLog');
+  const resetContainer    = document.getElementById('resetContainer');
+
   showOutput('Select two Pokémon and click "Start Battle".');
 
+  // Populate dropdowns
   try {
     const list = await fetchPokemonList();
-    console.log('Pokémon list:', list.slice(0, 10), '…(', list.length, 'total)');
+    console.log('📝 fetched Pokémon list → first 10:', list.slice(0, 10));
     populateDropdown('pokemon1', list);
     populateDropdown('pokemon2', list);
+    console.log('✅ populateDropdown called for pokemon1 & pokemon2');
   } catch (err) {
     console.error(err);
     showOutput('❌ ' + err.message);
   }
 
-  document.getElementById('compareBtn')
-    .addEventListener('click', startBattle);
+  // Start Battle button
+  document.getElementById('compareBtn').addEventListener('click', async () => {
+    const p1name = document.getElementById('pokemon1').value;
+    const p2name = document.getElementById('pokemon2').value;
+    if (!p1name || !p2name) {
+      showOutput('Please select both Pokémon.');
+      return;
+    }
 
-document.getElementById('resetBtn')
-  .addEventListener('click', () => {
+    // toggle UI
+    selectorContainer.classList.add('hidden');
+    output.classList.remove('hidden');
+    battleContainer.classList.remove('hidden');
+    battleLog.classList.remove('hidden');
+
+    showOutput(`Loading ${p1name} vs ${p2name}…`);
+    try {
+      const [p1, p2] = await Promise.all([
+        fetchPokemonData(p1name),
+        fetchPokemonData(p2name)
+      ]);
+
+      // fetch type relations
+      const allTypes = [...new Set([...p1.types, ...p2.types])];
+      const typeMap  = {};
+      await Promise.all(allTypes.map(async t => {
+        typeMap[t] = await fetchTypeRelations(t);
+      }));
+
+      // show type effectiveness
+      const eff = calcEffectiveness(p1.types, p2.types, typeMap);
+      const effText = eff === 0
+        ? 'ineffective'
+        : eff > 1
+          ? 'super‑effective'
+          : 'not very effective';
+      showOutput(
+        `Type: ${capitalize(p1.name)} → ${capitalize(p2.name)} is ${effText} (×${eff})`
+      );
+
+      // render and fight
+      renderBattleScreen(p1, p2);
+      enterArena();
+      simulateBattle(
+        p1, p2, typeMap,
+        (att, def, dmg, hp1, hp2, max1, max2) => {
+          logBattle(`${capitalize(att.name)} hits ${capitalize(def.name)} for ${dmg} damage`);
+          const barId = def === p2 ? 'poke2HpBar' : 'poke1HpBar';
+          const frac  = def === p2 ? hp2 / max2 : hp1 / max1;
+          updateHpBar(barId, frac);
+          animateHpBar(barId);
+          animateBounce(def === p2 ? 'p2' : 'p1');
+        },
+        winner => {
+          logBattle(`${capitalize(winner.name)} wins!`);
+          announceWinner(capitalize(winner.name));
+          resetContainer.classList.remove('hidden');
+        }
+      );
+    } catch (err) {
+      console.error(err);
+      showOutput('❌ ' + err.message);
+    }
+  });
+
+  // Reset Battle button
+  document.getElementById('resetBtn').addEventListener('click', () => {
     exitArena();
-
-    // 1) hide everything
-    battlePane.classList.add('hidden');
-    log.classList.add('hidden');
+    battleContainer.classList.add('hidden');
+    battleLog.classList.add('hidden');
     output.classList.add('hidden');
-    resetPane.classList.add('hidden');
+    resetContainer.classList.add('hidden');
+    selectorContainer.classList.remove('hidden');
 
-    // 2) show selector again
-    selector.classList.remove('hidden');
-
-    // 3) reset HP bars & dropdowns as you already do
     updateHpBar('poke1HpBar', 1);
     updateHpBar('poke2HpBar', 1);
     showOutput('Select two Pokémon and click "Start Battle".');
@@ -63,95 +121,7 @@ document.getElementById('resetBtn')
       document.getElementById(id).selectedIndex = 0;
     });
   });
-
-
-async function startBattle() {
-  // 0) toggle visibility
-  selector.classList.add('hidden');
-  output.classList.remove('hidden');
-  battlePane.classList.remove('hidden');
-  log.classList.remove('hidden');
-
-  const p1name = document.getElementById('pokemon1').value;
-  const p2name = document.getElementById('pokemon2').value;
-  // … rest of your existing code
-
-
-  showOutput(`Loading ${p1name} vs ${p2name}…`);
-  try {
-    // Fetch both Pokémon
-    const [p1, p2] = await Promise.all([
-      fetchPokemonData(p1name),
-      fetchPokemonData(p2name)
-    ]);
-
-    // Fetch type relations
-    const allTypes = [...new Set([...p1.types, ...p2.types])];
-    const typeMap = {};
-    await Promise.all(
-      allTypes.map(async t => {
-        typeMap[t] = await fetchTypeRelations(t);
-      })
-    );
-
-    // Pre‑battle effectiveness (debug)
-    const initialEff = calcEffectiveness(p1.types, p2.types, typeMap);
-    let effText = initialEff === 0
-      ? 'ineffective'
-      : initialEff > 1
-        ? 'super‑effective'
-        : initialEff < 1
-          ? 'not very effective'
-          : 'effective';
-    showOutput(
-      `Type effectiveness: ${capitalize(p1.name)} → ${capitalize(p2.name)} is ${effText} (×${initialEff})`
-    );
-
-    // Show battle screen & log
-    renderBattleScreen(p1, p2);
-    enterArena();
-    const log = document.getElementById('battleLog');
-    if (log) log.classList.remove('hidden');
-
-    // Simulate the fight
-    simulateBattle(
-      p1, p2, typeMap,
-
-      // onUpdate callback
-      (att, def, dmg, hp1, hp2, max1, max2, eff) => {
-        const attackerName = capitalize(att.name);
-        const defenderName = capitalize(def.name);
-
-        // 1) Log the hit
-        logBattle(`${attackerName} hits ${defenderName} for ${dmg} damage`);
-
-        // 2) Update & flash HP
-        const target = def === p2 ? 'p2' : 'p1';
-        const barId   = target === 'p2' ? 'poke2HpBar' : 'poke1HpBar';
-        const newFrac = target === 'p2'
-          ? hp2 / max2
-          : hp1 / max1;
-        updateHpBar(barId, newFrac);
-        animateHpBar(barId);
-
-        // 3) Bounce the defender sprite
-        animateBounce(target);
-      },
-
-      // onComplete callback
-      winner => {
-        const winnerName = capitalize(winner.name);
-        logBattle(`${winnerName} wins!`);
-        announceWinner(winnerName);
-      }
-    );
-
-  } catch (err) {
-    console.error(err);
-    showOutput('❌ ' + err.message);
-  }
 }
 
-+ // wait until the DOM is ready, then initialize
-+ document.addEventListener('DOMContentLoaded', init);
-}
+// ▼ ensure init runs after the DOM is parsed ▼
+document.addEventListener('DOMContentLoaded', init);
