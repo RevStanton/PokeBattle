@@ -41,12 +41,8 @@ export function renderBattleScreen(p1, p2) {
   }
 
   // Safely pick a sprite URL (fallback to empty string if nothing)
-  const sprite1 = p1.sprites?.front_default
-               || p1.sprites?.other?.['official-artwork']?.front_default
-               || '';
-  const sprite2 = p2.sprites?.front_default
-               || p2.sprites?.other?.['official-artwork']?.front_default
-               || '';
+  const sprite1 = p1.sprites.frontDefault || p1.sprites.officialArtwork || '';
+  const sprite2 = p2.sprites.frontDefault || p2.sprites.officialArtwork || '';
 
   img1.src         = sprite1;
   img1.alt         = p1.name;
