@@ -15,22 +15,22 @@
     </nav>
   </header>
 
-  <main>
-    <input
-      type="text"
-      id="pokemon-search"
-      list="pokemon-list"
-      placeholder="Search Pokémon…"
-      autocomplete="off"
-    />
-    <datalist id="pokemon-list"></datalist>
-    <button id="view-btn">View Details</button>
+  <div class="main-content info-page">
+    <div class="search-panel">
+      <input
+        type="text"
+        id="pokemon-search"
+        list="pokemon-list"
+        placeholder="Search Pokémon…"
+        autocomplete="off"
+      />
+      <datalist id="pokemon-list"></datalist>
+      <button id="view-btn" class="button">View Details</button>
+    </div>
 
-    <!-- where details render -->
-    <section id="pokemon-details"></section>
-  </main>
+    <div id="pokemon-details"></div>
+  </div>
 
-  <!-- only on this page: -->
   <script type="module" src="./services/info.js"></script>
 </body>
 </html>
