@@ -108,25 +108,34 @@ nav a.active {
   min-height: 2em;
 }
 
-/* ===== Battle Arena ===== */
-.battle-container {
+/* ===== Battle Arena View ===== */
+#battleContainer {
   display: flex;
   justify-content: space-around;
-  align-items: flex-end;       /* stick cards to the bottom */
+  align-items: flex-start;
   flex-wrap: wrap;
   width: 90%;
   max-width: 900px;
   margin: 0 auto 2rem;
-  /* give it height so the bottom aligns halfway down the viewport */
-  height: 60vh;
+  padding-bottom: 1rem;
 }
-
-
-/* Sprite & Effects (unchanged) */
-.sprite-container {
+.battle-card {
   position: relative;
   width: 150px;
-  height: 150px;
+  margin: 1rem;
+  text-align: center;
+}
+.battle-card h2 {
+  margin: 0.5rem 0;
+  font-family: var(--font-title);
+  text-transform: capitalize;
+  color: var(--color-yellow);
+  text-shadow: 1px 1px var(--color-red);
+}
+.sprite-container {
+  position: relative;
+  width: 100px;
+  height: 100px;
   margin: 0 auto;
 }
 .pokemon-sprite {
