@@ -533,3 +533,8 @@ nav a.active {
     border-radius: 0.25rem;
   }
 }
+
+/* Flip the first battle sprite to face the opponent */
+.battle-card[data-pokemon="p1"] .pokemon-sprite {
+  transform: scaleX(-1);
+}
