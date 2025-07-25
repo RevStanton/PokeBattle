@@ -466,7 +466,18 @@ nav a.active {
     flex-direction: row;
   }
 }
-
+/* Landing page heading centered under header */
+.main-content.landing h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+/* Center the two buttons beneath the heading */
+.main-content.landing .landing-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
 /* ===== Mobile Centering for Pokédex ===== */
 @media (max-width: 600px) {
   .main-content.info-page {
