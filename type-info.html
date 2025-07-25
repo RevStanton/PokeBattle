@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial‑scale=1"/>
+  <title>Type Effectiveness</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Type Effectiveness</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="battle.html">Battle</a>
+      <a href="pokemon‑info.html">Pokédex</a>
+      <a href="type‑info.html" class="active">Types</a>
+    </nav>
+  </header>
+
+  <main class="main-content info-page">
+    <div class="search-panel">
+      <select id="pokemon-select">
+        <option value="">Select a Pokémon…</option>
+      </select>
+      <button id="show-types-btn" class="button">Show Effectiveness</button>
+    </div>
+
+    <section id="type-results"></section>
+  </main>
+
+  <script type="module" src="./services/typeInfo.js"></script>
+</body>
+</html>

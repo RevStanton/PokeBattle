@@ -538,3 +538,26 @@ nav a.active {
 .battle-card[data-pokemon="p1"] .pokemon-sprite {
   transform: scaleX(-1);
 }
+
+/* Types page badges & layout */
+.type-section {
+  margin-bottom: 1.5rem;
+}
+.type-section h3 {
+  font-family: var(--font-title);
+  color: var(--color-blue);
+  margin-bottom: 0.5rem;
+}
+.type-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.type-badge {
+  background: var(--color-light);
+  border: 2px solid var(--color-red);
+  border-radius: 1rem;
+  padding: 0.3rem 0.75rem;
+  text-transform: capitalize;
+  font-size: 0.9rem;
+}
