@@ -22,7 +22,11 @@ async function init() {
       const typeTables = await Promise.all(
         pkmn.types.map(t => fetchTypeRelations(t))
       );
-
+    
+      console.log('types for', name, baseData.types);
+    
+      console.log('damage relations:', typeTables);
+    
       // render the union of those tables
       renderTypeInfo(pkmn.name, typeTables);
     });
