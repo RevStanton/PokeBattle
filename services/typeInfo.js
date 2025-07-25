@@ -17,15 +17,15 @@ async function init() {
       
       // fetch its core data (to learn its types)
       const pkmn = await fetchPokemonData(name);
-      
+      console.log('types for', name, baseData.types);
       // fetch the damage relations for *each* of its types in parallel
       const typeTables = await Promise.all(
         pkmn.types.map(t => fetchTypeRelations(t))
       );
-    
-      console.log('types for', name, baseData.types);
-    
       console.log('damage relations:', typeTables);
+      
+    
+    
     
       // render the union of those tables
       renderTypeInfo(pkmn.name, typeTables);
