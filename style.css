@@ -385,9 +385,41 @@ nav a.active {
   }
   #selectorContainer,
   .search-panel {
-    flex-direction: column;
-    align-items: center;
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
   }
+  /* Stretch the input to fill available space, with nice padding & border */
+.search-panel input {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 2px solid var(--color-blue);
+  border-radius: 0.5rem;
+  transition: border-color 0.2s;
+}
+.search-panel input:focus {
+  outline: none;
+  border-color: var(--color-red);
+}
+
+/* Match the button’s height, padding, and radius to the input */
+.search-panel button {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0.5rem;
+  background: var(--color-red);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.search-panel button:hover {
+  background: #b30000;
+}
   #battleContainer {
     flex-direction: column;
   }
