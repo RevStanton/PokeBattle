@@ -485,3 +485,40 @@ nav a.active {
     justify-content: center;
   }
 }
+
+/* Desktop‑only search panel card */
+@media (min-width: 769px) {
+  .main-content.info-page {
+    display: flex;
+    justify-content: center;
+  }
+
+  .search-panel {
+    max-width: 600px;
+    width: 100%;
+    margin: 2rem 0;
+    padding: 1rem 1.5rem;
+    background: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .search-panel input {
+    flex: 1;
+    height: 2.5rem;
+    padding: 0 1rem;
+    font-size: 1rem;
+    border: 1px solid var(--color-dark);
+    border-radius: 0.25rem;
+  }
+
+  .search-panel button {
+    height: 2.5rem;
+    padding: 0 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+  }
+}
