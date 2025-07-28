@@ -592,3 +592,25 @@ nav a.active {
   }
 }
 
+@media (max-width: 768px) {
+  /* Allow the arena to grow naturally and stack cards */
+  .battle-container {
+    height: auto;           /* remove the fixed 60vh */
+    flex-direction: column; /* stack battle cards vertically */
+    align-items: center;    /* center them */
+    padding: 1rem 0;        /* give some breathing room */
+  }
+
+  /* Make each Pokémon card wider on small screens */
+  .battle-card {
+    width: 80%;
+    margin: 1rem 0;
+  }
+
+  /* Ensure sprites remain visible and scaled */
+  .sprite-container {
+    width: 80px;
+    height: 80px;
+  }
+}
+
