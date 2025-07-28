@@ -561,3 +561,34 @@ nav a.active {
   text-transform: capitalize;
   font-size: 0.9rem;
 }
+
+@media (max-width: 768px) {
+  /* Stack the labels & selects vertically */
+  #selectorContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+    padding: 0 1rem;
+  }
+
+  /* Make each label take up full width */
+  #selectorContainer label {
+    width: 100%;
+    text-align: left;
+  }
+
+  /* Make selects & button fill the container */
+  #selectorContainer select,
+  #selectorContainer .button {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1rem;
+  }
+
+  /* Tweak the button margin so it doesn’t stick to the bottom */
+  #selectorContainer .button {
+    margin-top: 0.5rem;
+  }
+}
+
