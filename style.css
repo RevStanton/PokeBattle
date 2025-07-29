@@ -1,327 +1,182 @@
-/* ============================================================================
-   Google Fonts
-   ============================================================================
-   Make sure to include this at the top of your CSS or in your HTML <head>:
-   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&family=Inter:wght@300;400;600&display=swap');
-============================================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323&display=swap');
 
 /* ============================================================================
-   Theme Variables
+   Pixel Adventure Theme
 ============================================================================ */
 :root {
-  /* Dexteria Palette */
-  --primary-bg:      #F0F4F8; /* Snow */
-  --primary-text:    #1B263B; /* Midnight Navy */
-  --accent:          #3DA5D9; /* Aqua Teal */
-  --accent-hover:    #2A8CB8;
-  --danger:          #FF6B6B; /* Coral */
+  /* GBA‑style palette */
+  --bg:               #B8E994; /* light mint grass */
+  --panel-bg:         #DFF9FB; /* pale sky */
+  --text:             #1B1B1B; /* dark charcoal */
+  --primary-color:    #3C10FF; /* deep purple */
+  --secondary-color:  #FF4D4D; /* bright coral red */
+  --accent-color:     #FFD32A; /* warm yellow */
 
-  /* Typography */
-  --font-header:     'Poppins', sans-serif;
-  --font-body:       'Inter', sans-serif;
-
-  --transition:      0.2s ease-in-out;
+  /* Pixel fonts */
+  --font-header:      'Press Start 2P', cursive;
+  --font-body:        'VT323', monospace;
 }
 
-/* ============================================================================
-   Reset & Base
-============================================================================ */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html, body {
-  height: 100%;
-}
-
+/* Reset & Base */
 body {
+  background: var(--bg) url('images/pixel-grass.png') repeat;
   font-family: var(--font-body);
-  background-color: var(--primary-bg);
-  color: var(--primary-text);
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  transition: background-color var(--transition);
+  color: var(--text);
+}
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-header);
+  color: var(--primary-color);
+  text-shadow: 2px 2px var(--secondary-color);
 }
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-button {
-  font-family: var(--font-body);
-}
-
-/* ============================================================================
-   Header & Navigation
-============================================================================ */
+/* Header & Nav */
 header {
-  background-color: var(--accent);
+  background: var(--panel-bg);
+  border-bottom: 4px solid var(--primary-color);
   padding: 1rem 2rem;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
-header h1 {
-  font-family: var(--font-header);
-  font-weight: 700;
-  color: var(--primary-bg);
-  font-size: 1.8rem;
-}
-
-nav {
-  display: flex;
-  gap: 1rem;
-}
-
 nav a {
-  font-size: 0.95rem;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  transition: background-color var(--transition);
+  font-family: var(--font-header);
+  font-size: 0.75rem;
+  margin-left: 1rem;
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 0.5rem;
+  background: var(--panel-bg);
+  border: 2px solid var(--secondary-color);
 }
-
 nav a:hover,
 nav a.active {
-  background-color: var(--primary-bg);
-  color: var(--accent);
+  background: var(--secondary-color);
+  color: var(--panel-bg);
 }
 
-/* ============================================================================
-   Main Container
-============================================================================ */
+/* Main wrapper */
 .main-content {
-  flex: 1;
-  width: 100%;
-  max-width: 1200px;
+  max-width: 960px;
   margin: 2rem auto;
   padding: 0 1rem;
 }
 
-/* ============================================================================
-   Global Buttons
-============================================================================ */
+/* Global buttons */
 .button {
-  background-color: var(--accent);
-  color: var(--primary-bg);
-  border: none;
-  border-radius: 0.5rem;
-  padding: 0.6rem 1.2rem;
-  font-size: 1rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: background-color var(--transition), transform var(--transition);
+  font-family: var(--font-header);
+  font-size: 0.75rem;
+  background: var(--secondary-color);
+  color: var(--panel-bg);
+  border: 3px solid var(--primary-color);
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  box-shadow:  4px 4px 0 var(--primary-color);
+  transition: transform 0.1s;
 }
-
 .button:hover {
-  background-color: var(--accent-hover);
-  transform: translateY(-2px);
+  transform: translate(-2px, -2px);
 }
 
-/* ============================================================================
-   All‑Pokémon Page
-============================================================================ */
-.main-content.all-pokemon-page .search-panel {
-  display: flex;
-  gap: 0.75rem;
-  background: #fff;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  margin-bottom: 1.5rem;
-}
-
-.search-panel input {
-  flex: 1;
-  padding: 0.6rem 1rem;
-  font-size: 1rem;
-  border: 2px solid var(--accent);
-  border-radius: 0.5rem;
-  transition: border-color var(--transition);
-}
-
-.search-panel input:focus {
-  outline: none;
-  border-color: var(--danger);
-}
-
-.search-panel button {
-  padding: 0.6rem 1.2rem;
-}
-
+/* All‑Pokémon Grid */
 #all-pokemon-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(128px, 1fr));
   gap: 1rem;
 }
-
 .pkmn-card {
-  background: #fff;
-  border: 2px solid var(--accent);
-  border-radius: 0.5rem;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  padding: 1rem;
+  background: var(--panel-bg);
+  border: 3px solid var(--secondary-color);
+  box-shadow: 4px 4px 0 var(--primary-color);
+  padding: 0.75rem;
   text-align: center;
   cursor: pointer;
-  transition: transform var(--transition), box-shadow var(--transition);
+  transition: transform 0.1s;
 }
-
 .pkmn-card:hover {
-  transform: translateY(-4px);
+  transform: translate(-4px, -4px);
 }
-
 .pkmn-card img {
-  width: 80px;
-  height: 80px;
+  width: 64px;
+  height: 64px;
+  image-rendering: pixelated;
   margin-bottom: 0.5rem;
 }
-
 .pkmn-name {
   font-family: var(--font-header);
-  font-weight: 500;
-  color: var(--primary-text);
-  text-transform: capitalize;
+  font-size: 0.65rem;
+  text-transform: uppercase;
 }
 
-/* ============================================================================
-   Pokédex (Info) Page
-============================================================================ */
-.info-page {
+/* Search Panel */
+.search-panel {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.search-panel input {
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 3px solid var(--primary-color);
+  background: var(--panel-bg);
+}
+.search-panel input:focus {
+  outline: none;
+  border-color: var(--secondary-color);
 }
 
+/* Pokédex Detail Card */
 .poke-card {
-  background: #fff;
-  border-radius: 0.75rem;
-  border: 2px solid var(--accent);
-  padding: 1.5rem;
+  background: var(--panel-bg);
+  border: 3px solid var(--secondary-color);
+  box-shadow: 4px 4px 0 var(--primary-color);
+  padding: 1rem;
   margin-bottom: 2rem;
-  width: 100%;
-  max-width: 500px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  max-width: 480px;
 }
-
-.poke-header {
-  text-align: center;
-  margin-bottom: 1rem;
-}
-
 .poke-header h2 {
-  font-family: var(--font-header);
-  font-weight: 700;
-  color: var(--accent);
-  margin-bottom: 0.5rem;
+  font-size: 1rem;
 }
 
-.poke-header img {
-  width: 150px;
-  height: auto;
-  border-radius: 50%;
-  border: 2px solid var(--danger);
-  margin-bottom: 0.75rem;
-}
-
-/* (Keep your existing detailed styling for abilities, stats, moves here) */
-
-/* ============================================================================
-   Battle Page
-============================================================================ */
+/* Battle Screen */
 .battle-container {
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
-  flex-wrap: wrap;
   gap: 2rem;
   margin: 0 auto 2rem;
-  width: 100%;
-  max-width: 900px;
-  height: 60vh;
+  max-width: 800px;
+  height: 200px;
+  background: var(--panel-bg) url('images/pixel-arena.png') no-repeat center;
 }
-
 .battle-card {
   text-align: center;
-  position: relative;
+}
+.pokemon-sprite {
+  width: 80px;
+  height: 80px;
+  image-rendering: pixelated;
 }
 
-/* Flip first sprite */
-.battle-card[data-pokemon="p1"] .pokemon-sprite {
-  transform: scaleX(-1);
-}
-
-/* (Preserve HP bar, damage animations, etc.) */
-
-/* ============================================================================
-   Type‑Info Page
-============================================================================ */
-.type-section {
-  margin-bottom: 1.5rem;
-}
-
-.type-section h3 {
-  font-family: var(--font-header);
-  color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-
+/* Type Info */
 .type-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-
 .type-badge {
-  background: #fff;
-  border: 2px solid var(--accent);
-  border-radius: 1rem;
-  padding: 0.3rem 0.75rem;
-  text-transform: capitalize;
-  font-size: 0.9rem;
+  font-family: var(--font-header);
+  font-size: 0.65rem;
+  background: var(--panel-bg);
+  border: 2px solid var(--secondary-color);
+  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
 }
 
-/* ============================================================================
-   Responsive
-============================================================================ */
-@media (max-width: 768px) {
-  header {
-    flex-direction: column;
-    gap: 0.5rem;
-    text-align: center;
-  }
-
-  .main-content {
-    padding: 0 1rem;
-  }
-
-  .search-panel {
-    flex-direction: column;
-  }
-
-  #all-pokemon-container {
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  }
-
-  .search-panel input,
-  .search-panel button {
-    width: 100%;
-  }
-
-  .battle-container {
-    height: auto;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .sprite-container {
-    width: 80px;
-    height: 80px;
-  }
+/* Responsive tweaks */
+@media (max-width: 600px) {
+  .main-content { padding: 0 0.5rem; }
+  #all-pokemon-container { grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); }
+  .battle-container { flex-direction: column; height: auto; }
 }
