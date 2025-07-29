@@ -308,3 +308,79 @@ nav a.active {
   }
   .battle-container { flex-direction: column; height: auto; }
 }
+
+/* ============================================================================
+   1) Hide battle UI until JS removes the .hidden class
+============================================================================ */
+.hidden {
+  display: none !important;
+}
+
+/* Just to be extra‐sure */
+#battleContainer.hidden,
+#battleLog.hidden,
+#resetContainer.hidden {
+  display: none !important;
+}
+
+/* ============================================================================
+   3) Restore “card” look on Pokédex & remove the mini-icon boxes
+============================================================================ */
+.poke-card {
+  /* thick pixel border + drop shadow */
+  background: var(--panel-bg);
+  border: 4px solid var(--secondary-red);
+  border-radius: 8px;
+  box-shadow: 4px 4px 0 var(--primary-purple);
+  padding: 1.5rem;
+  margin: 2rem auto;
+  max-width: 480px;
+}
+
+/* Ability section: back to list items */
+.poke-abilities {
+  margin-bottom: 1rem;
+}
+
+.poke-abilities h3 {
+  font-family: var(--font-header);
+  margin-bottom: 0.5rem;
+}
+
+.poke-abilities .ability {
+  /* remove fixed box styling */
+  background: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  width: auto !important;
+  height: auto !important;
+  padding: 0 !important;
+  margin-bottom: 0.75rem;
+}
+
+.poke-abilities .ability h4 {
+  /* show the ability name again */
+  display: block !important;
+  font-size: 1rem;
+  color: var(--primary-purple);
+  margin-bottom: 0.25rem;
+}
+
+.poke-abilities .ability p {
+  display: block;
+  font-size: 0.85rem;
+  margin: 0.15rem 0;
+}
+
+/* ============================================================================
+   4) (Optional) Ensure your bounce/flash/float animations remain defined
+============================================================================ */
+/* Floating damage (keep from your previous CSS) */
+.damage-number { /* ... */ }
+@keyframes float-up { /* ... */ }
+
+/* Bounce & flash */
+@keyframes bounce { /* ... */ }
+.bounce { /* ... */ }
+@keyframes flash-bg { /* ... */ }
+.flash { /* ... */ }
