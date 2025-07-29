@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Pokémon · PokéBattle Mini</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>PokéBattle Mini</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pokemon-info.html">Pokédex</a>
+      <a href="all-pokemon.html" class="active">All Pokémon</a>
+    </nav>
+  </header>
+
+  <main class="main-content info-page all-pokemon-page">
+    <div class="search-panel">
+      <input id="pokemon-search-all" placeholder="Filter Pokémon…"/>
+    </div>
+
+    <div id="all-pokemon-container" class="pokemon-grid"></div>
+
+    <section id="pokemon-details"></section>
+  </main>
+
+  <script type="module">
+    import { fetchAllPokemonList, fetchFullPokemon } from './services/allPokemonService.js';
+    import { renderPokemonList }                     from './ui/allPokemonRenderer.js';
+    import { renderFullPokemon }                     from './ui/fullPokemonRenderer.js';
+
+    async function init() {
+      // 1) populate grid
+      const list = await fetchAllPokemonList();
+      renderPokemonList(list);
+
+      // 2) filtering
+      document.getElementById('pokemon-search-all')
+        .addEventListener('input', e => {
+          const q = e.target.value.toLowerCase();
+          const filtered = list.filter(p => p.name.includes(q));
+          renderPokemonList(filtered);
+        });
+
+      // 3) click to show details
+      document.getElementById('all-pokemon-container')
+        .addEventListener('click', async e => {
+          const card = e.target.closest('.pkmn-card');
+          if (!card) return;
+          const name = card.dataset.name;
+          const data = await fetchFullPokemon(name);
+          renderFullPokemon(data);
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+    init();
+  </script>
+</body>
+</html>
