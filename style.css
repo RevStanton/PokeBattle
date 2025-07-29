@@ -113,7 +113,7 @@ nav a.active {
   height: 200px;
   margin: 0 auto 2rem;
   background: var(--panel-bg)
-    url('/workspaces/PokeBattle/images/arena.jpg')
+    url('/images/arena.jpg')
     no-repeat center;
   background-size: cover;
 }

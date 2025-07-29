@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Dexteria — Pokédex</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>Dexteria</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="battle.html">Battle</a>
+      <a href="pokedex.html" class="active">Pokédex</a>
+    </nav>
+  </header>
+
+  <main class="main-content info-page all-pokemon-page">
+    <!-- 1) Filter box -->
+    <div class="search-panel">
+      <input 
+        id="pokemon-search-all" 
+        type="text" 
+        placeholder="Filter Pokémon…" 
+        autocomplete="off"
+      />
+    </div>
+
+    <!-- 2) Grid of all Pokémon -->
+    <div id="all-pokemon-container" class="pokemon-grid"></div>
+
+    <!-- 3) Full details go here -->
+    <section id="pokemon-details"></section>
+  </main>
+
+  <script type="module">
+    import { fetchAllPokemonList, fetchFullPokemon } from './services/allPokemonService.js';
+    import { renderPokemonList }                     from './ui/allPokemonRenderer.js';
+    import { renderFullPokemon }                     from './ui/fullPokemonRenderer.js';
+
+    async function init() {
+      // 1) Fetch & render master list
+      const allList = await fetchAllPokemonList();
+      renderPokemonList(allList);
+
+      // 2) Live‐filter
+      document
+        .getElementById('pokemon-search-all')
+        .addEventListener('input', e => {
+          const q = e.target.value.trim().toLowerCase();
+          renderPokemonList(
+            allList.filter(p => p.name.includes(q))
+          );
+        });
+
+      // 3) Click a card to load details below
+      document
+        .getElementById('all-pokemon-container')
+        .addEventListener('click', async e => {
+          const card = e.target.closest('.pkmn-card');
+          if (!card) return;
+          const name = card.dataset.name;
+
+          // show loading state
+          const details = document.getElementById('pokemon-details');
+          details.innerHTML = '<p>Loading…</p>';
+
+          try {
+            const full = await fetchFullPokemon(name);
+            renderFullPokemon(full);
+            window.scrollTo({ top: details.offsetTop, behavior: 'smooth' });
+          } catch (err) {
+            console.error('Error loading details for', name, err);
+            details.innerHTML = '<p>Error loading Pokémon details.</p>';
+          }
+        });
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
