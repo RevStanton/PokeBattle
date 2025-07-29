@@ -1,13 +1,19 @@
+// js/ui/allPokemonRenderer.js
 import { capitalize } from './utils.js';
 
 /**
  * Render a grid of sprite+name cards inside #all-pokemon-container
  */
 export function renderPokemonList(list) {
+  console.log('[allPokemonRenderer] rendering list, count=', list.length);
   const container = document.getElementById('all-pokemon-container');
+  if (!container) {
+    console.error('[allPokemonRenderer] missing #all-pokemon-container');
+    return;
+  }
   container.innerHTML = list
     .map(({ name, url }) => {
-      const id = url.split('/').filter(Boolean).pop();
+      const id        = url.split('/').filter(Boolean).pop();
       const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${id}.png`;
       return `
         <div class="pkmn-card" data-name="${name}">
@@ -17,11 +23,4 @@ export function renderPokemonList(list) {
       `;
     })
     .join('');
-}
-
-export function renderPokemonList(list) {
-  console.log('[Renderer] renderPokemonList got', list.length, 'entries');
-  const container = document.getElementById('all-pokemon-container');
-  if (!container) return console.error('[Renderer] missing container');
-  /* … existing code … */
 }
