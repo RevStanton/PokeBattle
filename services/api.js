@@ -48,6 +48,7 @@ export async function fetchPokemonData(nameOrId) {
     weight: data.weight,
     moves: data.moves.map(({ move }) => move.name),
     stats,
+    evolution_chain: sp.evolution_chain?.url,
     sprites: {
       frontDefault: data.sprites.front_default,
       officialArtwork:
