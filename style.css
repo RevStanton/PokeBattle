@@ -306,3 +306,30 @@ nav a.active {
     height: auto;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   All‑Pokémon page: auto‑filling responsive grid
+--------------------------------------------------------------------------- */
+#all-pokemon-container {
+  display: grid;
+  /* auto‑fit as many 140px‑wide cards as will fit, each expanding to 1fr */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  width: 100%;
+  margin: 0 auto 2rem;
+}
+
+/* on small phones, let cards shrink to 100px */
+@media (max-width: 600px) {
+  #all-pokemon-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
+
+/* optionally widen your main wrapper on desktops */
+@media (min-width: 1200px) {
+  .main-content {
+    max-width: 1200px;
+  }
+}
+
