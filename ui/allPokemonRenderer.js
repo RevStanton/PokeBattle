@@ -18,3 +18,10 @@ export function renderPokemonList(list) {
     })
     .join('');
 }
+
+export function renderPokemonList(list) {
+  console.log('[Renderer] renderPokemonList got', list.length, 'entries');
+  const container = document.getElementById('all-pokemon-container');
+  if (!container) return console.error('[Renderer] missing container');
+  /* … existing code … */
+}

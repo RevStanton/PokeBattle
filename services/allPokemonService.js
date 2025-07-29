@@ -8,27 +8,19 @@ let _allCache = null;
  * Returns [{ name, url }, …] of all Pokémon (cached)
  */
 export async function fetchAllPokemonList() {
-  if (_allCache) return _allCache;
-  const res = await fetch(API_BASE);
-  if (!res.ok) throw new Error(`Failed to load Pokémon list (${res.status})`);
-  const { results } = await res.json();
-  _allCache = results;
-  return _allCache;
+  const list = await fetchAllPokemonList();  
+  console.log('[Service] fetched all Pokémon:', list.length);
+  return list;
 }
 
-/**
- * Fetches full data for one Pokémon, including species & evolution chain
- * @param {string} nameOrId
- */
 export async function fetchFullPokemon(nameOrId) {
-  // 1) core + species
-  const [core, species] = await Promise.all([
+  console.log(`[Service] fetchFullPokemon start for "${nameOrId}"`);
+  const [ core, species ] = await Promise.all([
     fetchPokemonData(nameOrId),
     fetchPokemonSpecies(nameOrId)
   ]);
-
-  // 2) evolution chain via species.evolution_chain.url
-  const evoChain = await fetchEvolutionChain(species.evolution_chain.url);
-
-  return { ...core, ...species, evolution: evoChain };
+  console.log('[Service] core and species objects:', core, species);
+  const chain = await fetchEvolutionChain(species.evolution_chain);
+  console.log('[Service] evolution chain:', chain);
+  return { ...core, ...species, evolution: chain };
 }

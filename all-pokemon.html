@@ -37,12 +37,14 @@
     // 1) fetch full list
     let list;
     try {
-      list = await fetchAllPokemonList();
-      console.log(`✅ Fetched Pokémon list (${list.length} entries)`);
+    console.log('[Page] init start');
+    const list = await fetchAllPokemonList();
+    console.log('[Page] list:', list.slice(0,5), '…');
+    renderPokemonList(list);
+    /* … attach click listener … */
     } catch (err) {
-      console.error('❌ Failed to fetch all Pokémon:', err);
-      return;
-    }
+    console.error('[Page] error in init:', err);
+}
 
     // 2) initial render
     try {
