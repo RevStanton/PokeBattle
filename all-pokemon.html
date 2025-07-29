@@ -49,6 +49,8 @@
             console.log('[Page] clicked card:', card?.dataset?.name);
             if (!card) return;
             const name = card.dataset.name;
+            // navigate to detail page:
+            window.location.href = `pokemon-detail.html?name=${encodeURIComponent(name)}`;
             try {
               console.log('[Page] fetching details for', name);
               const full = await fetchFullPokemon(name);

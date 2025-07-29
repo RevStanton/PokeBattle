@@ -614,20 +614,26 @@ nav a.active {
   }
 }
 
-/* All‑Pokémon grid & card layout */
-.pokemon-grid,
+/* === All‑Pokémon Page Overrides === */
+.main-content.all-pokemon-page {
+  display: block;           /* cancel any flex centering */
+  max-width: 1200px;        /* allow wider grid */
+  margin: 2rem auto;        /* center on the page */
+}
+
 #all-pokemon-container {
-  display: grid;
+  display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
   gap: 1rem;
   margin: 1rem 0;
+  width: 100%;
 }
 
 .pkmn-card {
   background: #fff;
   border: 2px solid var(--color-blue);
   border-radius: 0.5rem;
-  padding: 0.75rem;
+  padding: 1rem;
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -646,8 +652,7 @@ nav a.active {
 }
 
 .pkmn-name {
-  font-family: var(--font-body);
   font-size: 0.9rem;
   text-transform: capitalize;
+  color: var(--color-dark);
 }
-

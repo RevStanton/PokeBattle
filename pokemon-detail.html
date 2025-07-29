@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pokémon Detail</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <header>
+    <h1>PokéBattle Mini</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="pokemon-info.html">Pokédex</a>
+      <a href="all-pokemon.html">All Pokémon</a>
+    </nav>
+  </header>
+
+  <main class="main-content info-page">
+    <section id="pokemon-details"></section>
+  </main>
+
+  <script type="module">
+    import { fetchPokemonData, fetchPokemonSpecies } from './services/api.js';
+    import { fetchAbilityInfo }                      from './services/api.js';
+    import { fetchEvolutionChain }                   from './services/evolutionService.js';
+    import { renderPokemonInfo }                     from './ui/infoRenderer.js';
+    import { renderEvolution }                       from './ui/evolutionRenderer.js';
+
+    async function loadDetail() {
+      const params = new URLSearchParams(window.location.search);
+      const name   = params.get('name');
+      if (!name) {
+        document.getElementById('pokemon-details').innerHTML =
+          '<p>No Pokémon specified.</p>';
+        return;
+      }
+
+      // 1) Fetch core + species
+      const [ core, species ] = await Promise.all([
+        fetchPokemonData(name),
+        fetchPokemonSpecies(name)
+      ]);
+
+      // 2) Fetch abilities
+      const abilityDetails = await Promise.all(
+        core.abilities.map(a => fetchAbilityInfo(a))
+      );
+
+      // 3) Fetch evolution chain (if present)
+      let evolution = null;
+      if (species.evolution_chain) {
+        const chain = await fetchEvolutionChain(species.evolution_chain);
+        evolution = chain;
+      }
+
+      // 4) Merge & render
+      renderPokemonInfo({ ...core, ...species, abilityDetails });
+      const evoDiv = document.createElement('div');
+      evoDiv.className = 'evolution-chain';
+      evoDiv.innerHTML = `
+        <h3>Evolution</h3>
+        <div class="evo-list">
+          ${renderEvolution(evolution)}
+        </div>
+      `;
+      document.getElementById('pokemon-details').appendChild(evoDiv);
+    }
+
+    document.addEventListener('DOMContentLoaded', loadDetail);
+  </script>
+</body>
+</html>
