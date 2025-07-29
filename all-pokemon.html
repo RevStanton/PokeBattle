@@ -27,35 +27,63 @@
   </main>
 
   <script type="module">
-    import { fetchAllPokemonList, fetchFullPokemon } from './services/allPokemonService.js';
-    import { renderPokemonList }                     from './ui/allPokemonRenderer.js';
-    import { renderFullPokemon }                     from './ui/fullPokemonRenderer.js';
+  import { fetchAllPokemonList, fetchFullPokemon } from './services/allPokemonService.js';
+  import { renderPokemonList }                     from './ui/allPokemonRenderer.js';
+  import { renderFullPokemon }                     from './ui/fullPokemonRenderer.js';
 
-    async function init() {
-      // 1) populate grid
-      const list = await fetchAllPokemonList();
-      renderPokemonList(list);
+  async function init() {
+    console.log('📖 Initializing All Pokémon page');
 
-      // 2) filtering
-      document.getElementById('pokemon-search-all')
-        .addEventListener('input', e => {
-          const q = e.target.value.toLowerCase();
-          const filtered = list.filter(p => p.name.includes(q));
-          renderPokemonList(filtered);
-        });
-
-      // 3) click to show details
-      document.getElementById('all-pokemon-container')
-        .addEventListener('click', async e => {
-          const card = e.target.closest('.pkmn-card');
-          if (!card) return;
-          const name = card.dataset.name;
-          const data = await fetchFullPokemon(name);
-          renderFullPokemon(data);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
+    // 1) fetch full list
+    let list;
+    try {
+      list = await fetchAllPokemonList();
+      console.log(`✅ Fetched Pokémon list (${list.length} entries)`);
+    } catch (err) {
+      console.error('❌ Failed to fetch all Pokémon:', err);
+      return;
     }
-    init();
-  </script>
+
+    // 2) initial render
+    try {
+      renderPokemonList(list);
+      console.log('✅ Initial render completed');
+    } catch (err) {
+      console.error('❌ renderPokemonList error:', err);
+    }
+
+    // 3) filtering
+    const searchInput = document.getElementById('pokemon-search-all');
+    console.log('🔍 search input element:', searchInput);
+    searchInput.addEventListener('input', e => {
+      const q = e.target.value.trim().toLowerCase();
+      console.log('📝 Filter query:', q);
+      const filtered = list.filter(p => p.name.includes(q));
+      console.log(`🔄 Rendering ${filtered.length} filtered entries`);
+      renderPokemonList(filtered);
+    });
+
+    // 4) click for details
+    const grid = document.getElementById('all-pokemon-container');
+    console.log('🎮 grid element:', grid);
+    grid.addEventListener('click', async e => {
+      const card = e.target.closest('.pkmn-card');
+      console.log('🔘 Card clicked:', card);
+      if (!card) return;
+      const name = card.dataset.name;
+      console.log('🐾 Fetching full data for:', name);
+      try {
+        const data = await fetchFullPokemon(name);
+        console.log('📦 Full data received for', name, data);
+        renderFullPokemon(data);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error(`❌ Error fetching ${name}:`, err);
+      }
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', init);
+</script>
 </body>
 </html>
