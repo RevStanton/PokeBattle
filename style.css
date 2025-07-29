@@ -108,17 +108,21 @@ nav a.active {
 /* ============================================================================
    Battle Page
 ============================================================================ */
+/* ============================================================================
+   Battle container — restored flex layout + arena background
+============================================================================ */
 .battle-container {
-  position: relative;
-  width: 100%;
-  max-width: 800px;
-  height: 200px;
-  margin: 0 auto 2rem;
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
   flex-wrap: wrap;
-  background: var(--panel-bg) url('images/arena.jpg') no-repeat center;
+
+  width: 100%;
+  max-width: 800px;
+  height: 200px;
+
+  margin: 0 auto 2rem;
+  background: var(--panel-bg) url('/workspaces/PokeBattle/images/arena.jpg') no-repeat center;
   background-size: cover;
 }
 .battle-card {
