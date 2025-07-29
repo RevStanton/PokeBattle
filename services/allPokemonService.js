@@ -8,9 +8,13 @@ let _allCache = null;
  * Returns [{ name, url }, …] of all Pokémon (cached)
  */
 export async function fetchAllPokemonList() {
-  const list = await fetchAllPokemonList();  
-  console.log('[Service] fetched all Pokémon:', list.length);
-  return list;
+  if (_allCache) return _allCache;
+  const res = await fetch(API_URL);
+  if (!res.ok) throw new Error(`Failed to load Pokémon list (${res.status})`);
+  const { results } = await res.json();
+  console.log('[Service] fetched all Pokémon:', results.length);
+  _allCache = results;
+  return _allCache;
 }
 
 export async function fetchFullPokemon(nameOrId) {
