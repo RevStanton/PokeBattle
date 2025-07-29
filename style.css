@@ -1,5 +1,5 @@
 /* ============================================================================
-   Pixel Adventure + Battle Animations + Pokédex Card
+   Pixel Adventure + Battle Animations + Pokédex Card (Consolidated)
 ============================================================================ */
 
 /* --- Import Pixel Fonts --- */
@@ -7,44 +7,39 @@
 
 /* --- Theme Variables --- */
 :root {
-  --bg-grass:          #B8E994 url('images/pixel-grass.png') repeat;
-  --panel-bg:          #DFF9FB;
-  --text-color:        #1B1B1B;
-  --primary-purple:    #3C10FF;
-  --secondary-red:     #FF4D4D;
-  --accent-yellow:     #FFD32A;
+  --bg-grass:         #B8E994 url('images/pixel-grass.png') repeat;
+  --panel-bg:         #DFF9FB;
+  --text-color:       #1B1B1B;
+  --primary-purple:   #3C10FF;
+  --secondary-red:    #FF4D4D;
+  --accent-yellow:    #FFD32A;
 
-  --font-header:       'Press Start 2P', cursive;
-  --font-body:         'VT323', monospace;
+  --font-header:      'Press Start 2P', cursive;
+  --font-body:        'VT323', monospace;
 
-  --transition-fast:   0.1s ease-in-out;
-  --transition-med:    0.2s ease-in-out;
+  --transition-fast:  0.1s ease-in-out;
+  --transition-med:   0.2s ease-in-out;
 }
 
 /* --- Reset & Base --- */
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
+*::after { box-sizing: border-box; }
 
 html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+  margin: 0; padding: 0; height: 100%;
 }
-
 body {
-  background: var(--bg-grass);
-  font-family: var(--font-body);
-  color: var(--text-color);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+  background: var(--bg-grass);
+  font-family: var(--font-body);
+  color: var(--text-color);
 }
 
 /* ============================================================================
-   Header & Nav (unchanged styling, just font swap)
+   Header & Nav
 ============================================================================ */
 header {
   background: var(--panel-bg);
@@ -78,7 +73,7 @@ nav a.active {
 }
 
 /* ============================================================================
-   Main Container
+   Main wrapper
 ============================================================================ */
 .main-content {
   flex: 1;
@@ -88,7 +83,7 @@ nav a.active {
 }
 
 /* ============================================================================
-   Global Buttons
+   Global button
 ============================================================================ */
 .button {
   font-family: var(--font-header);
@@ -106,41 +101,37 @@ nav a.active {
 }
 
 /* ============================================================================
-   Battle Page
-============================================================================ */
-/* ============================================================================
-   Battle container — restored flex layout + arena background
+   Battle page
 ============================================================================ */
 .battle-container {
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
   flex-wrap: wrap;
-
   width: 100%;
   max-width: 800px;
   height: 200px;
-
   margin: 0 auto 2rem;
-  background: var(--panel-bg) url('/workspaces/PokeBattle/images/arena.jpg') no-repeat center;
+  background: var(--panel-bg)
+    url('/workspaces/PokeBattle/images/arena.jpg')
+    no-repeat center;
   background-size: cover;
 }
 .battle-card {
+  position: relative;
   width: 100px;
   text-align: center;
-  position: relative;
 }
 .pokemon-sprite {
   width: 80px;
   height: 80px;
   image-rendering: pixelated;
 }
-/* Mirror the first sprite */
 .battle-card[data-pokemon="p1"] .pokemon-sprite {
   transform: scaleX(-1);
 }
 
-/* --- HP Bar --- */
+/* HP bar */
 .hp-bar {
   position: absolute;
   bottom: -14px;
@@ -158,7 +149,7 @@ nav a.active {
   transition: width 0.6s ease;
 }
 
-/* --- Floating Damage --- */
+/* Floating damage */
 .damage-number {
   position: absolute;
   font-family: var(--font-header);
@@ -171,24 +162,20 @@ nav a.active {
   to { transform: translateY(-40px); opacity: 0; }
 }
 
-/* --- Bounce & Flash --- */
+/* Bounce & flash */
 @keyframes bounce {
   0%,100% { transform: translateY(0); }
   50%     { transform: translateY(-15px); }
 }
-.bounce {
-  animation: bounce 0.6s ease-in-out;
-}
+.bounce { animation: bounce 0.6s ease-in-out; }
 @keyframes flash-bg {
   0%,100% { background-color: transparent; }
   50%     { background-color: rgba(255,215,42,0.6); }
 }
-.flash {
-  animation: flash-bg 0.3s ease-in-out;
-}
+.flash { animation: flash-bg 0.3s ease-in-out; }
 
 /* ============================================================================
-   All-Pokémon Page (Grid)
+   All‑Pokemon page
 ============================================================================ */
 #all-pokemon-container {
   display: grid;
@@ -220,7 +207,7 @@ nav a.active {
   text-transform: uppercase;
 }
 
-/* --- Search Panel --- */
+/* Search panel */
 .search-panel {
   display: flex;
   gap: 0.5rem;
@@ -244,7 +231,7 @@ nav a.active {
 }
 
 /* ============================================================================
-   Pokédex Detail Card
+   Pokédex detail card
 ============================================================================ */
 .info-page {
   display: flex;
@@ -260,38 +247,32 @@ nav a.active {
   margin: 2rem auto;
   max-width: 480px;
 }
-/* Abilities rendered as icons rather than list */
 .poke-abilities {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
   margin-bottom: 1rem;
 }
+.poke-abilities h3 {
+  font-family: var(--font-header);
+  margin-bottom: 0.5rem;
+}
 .poke-abilities .ability {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  background: var(--primary-purple);
-  border: 2px solid var(--secondary-red);
-  border-radius: 8px;
-  cursor: default;
+  background: none;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+  margin-bottom: 0.75rem;
 }
 .poke-abilities .ability h4 {
-  display: none; /* hide text */
+  display: block;
+  font-size: 1rem;
+  color: var(--primary-purple);
+  margin-bottom: 0.25rem;
 }
-.poke-abilities .ability::before {
-  content: url('icons/ability.svg'); /* generic icon; swap per ability if you have specific icons */
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 24px;
-  height: 24px;
-  opacity: 0.8;
+.poke-abilities .ability p {
+  font-size: 0.85rem;
+  margin: 0.15rem 0;
 }
 
-/* --- Other panels (Type-info, etc.) --- */
-/* Keep your existing pixel-badge styling, or add: */
+/* Type badges */
 .type-badge {
   font-family: var(--font-header);
   background: var(--panel-bg);
@@ -303,24 +284,9 @@ nav a.active {
 }
 
 /* ============================================================================
-   Responsive Tweaks
+   Hide until JS unhides
 ============================================================================ */
-@media (max-width: 600px) {
-  .main-content { padding: 0 0.5rem; }
-  #all-pokemon-container {
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-  }
-  .battle-container { flex-direction: column; height: auto; }
-}
-
-/* ============================================================================
-   1) Hide battle UI until JS removes the .hidden class
-============================================================================ */
-.hidden {
-  display: none !important;
-}
-
-/* Just to be extra‐sure */
+.hidden,
 #battleContainer.hidden,
 #battleLog.hidden,
 #resetContainer.hidden {
@@ -328,63 +294,15 @@ nav a.active {
 }
 
 /* ============================================================================
-   3) Restore “card” look on Pokédex & remove the mini-icon boxes
+   Responsive tweaks
 ============================================================================ */
-.poke-card {
-  /* thick pixel border + drop shadow */
-  background: var(--panel-bg);
-  border: 4px solid var(--secondary-red);
-  border-radius: 8px;
-  box-shadow: 4px 4px 0 var(--primary-purple);
-  padding: 1.5rem;
-  margin: 2rem auto;
-  max-width: 480px;
+@media (max-width: 600px) {
+  .main-content { padding: 0 0.5rem; }
+  #all-pokemon-container {
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  }
+  .battle-container {
+    flex-direction: column;
+    height: auto;
+  }
 }
-
-/* Ability section: back to list items */
-.poke-abilities {
-  margin-bottom: 1rem;
-}
-
-.poke-abilities h3 {
-  font-family: var(--font-header);
-  margin-bottom: 0.5rem;
-}
-
-.poke-abilities .ability {
-  /* remove fixed box styling */
-  background: none !important;
-  border: none !important;
-  box-shadow: none !important;
-  width: auto !important;
-  height: auto !important;
-  padding: 0 !important;
-  margin-bottom: 0.75rem;
-}
-
-.poke-abilities .ability h4 {
-  /* show the ability name again */
-  display: block !important;
-  font-size: 1rem;
-  color: var(--primary-purple);
-  margin-bottom: 0.25rem;
-}
-
-.poke-abilities .ability p {
-  display: block;
-  font-size: 0.85rem;
-  margin: 0.15rem 0;
-}
-
-/* ============================================================================
-   4) (Optional) Ensure your bounce/flash/float animations remain defined
-============================================================================ */
-/* Floating damage (keep from your previous CSS) */
-.damage-number { /* ... */ }
-@keyframes float-up { /* ... */ }
-
-/* Bounce & flash */
-@keyframes bounce { /* ... */ }
-.bounce { /* ... */ }
-@keyframes flash-bg { /* ... */ }
-.flash { /* ... */ }
