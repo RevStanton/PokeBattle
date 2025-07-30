@@ -108,14 +108,15 @@ nav a.active {
   justify-content: space-around;
   align-items: flex-end;
   flex-wrap: wrap;
-  width: 450px;
+  width: 500px;
   max-width: 800px;
   height: 200px;
   margin: 0 auto 2rem;
   background: var(--panel-bg)
-    url('/images/arena.jpg')
+    url('images/arena.jpg')
     no-repeat center;
   background-size: cover;
+  color: white;
 }
 .battle-card {
   position: relative;
