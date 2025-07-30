@@ -7,7 +7,7 @@
 
 /* --- Theme Variables --- */
 :root {
-  --bg-grass:         #B8E994 url('images/pixel-grass.png') repeat;
+  --bg-grass:         #B8E994 url('images/pixel-grass.jpg') repeat;
   --panel-bg:         #DFF9FB;
   --text-color:       #1B1B1B;
   --primary-purple:   #3C10FF;
