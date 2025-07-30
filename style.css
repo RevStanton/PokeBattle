@@ -101,26 +101,36 @@ nav a.active {
 }
 
 /* ============================================================================
-   Battle page
+   Battle Container – Bigger, more dramatic arena
 ============================================================================ */
 .battle-container {
   display: flex;
   justify-content: space-around;
-  align-items: flex-end;
+  align-items: flex-end;      /* keeps the Pokémon on the ground */
   flex-wrap: wrap;
-  width: 500px;
-  max-width: 800px;
-  height: 200px;
+
+  width: 100%;
+  max-width: none;            /* allow full‐width if you want */
+  /* bump up the height so sprites sit lower in image */
+  height: 40vh;               /* ~40% of viewport height */
+  min-height: 300px;          /* at least 300px tall */
   margin: 0 auto 2rem;
+
+  /* your arena background */
   background: var(--panel-bg)
-    url('images/arena.jpg')
-    no-repeat center;
-  background-size: cover;
-  color: white;
+              url('/workspaces/PokeBattle/images/arena.jpg')
+              no-repeat center bottom;
+  background-size: cover;     /* fill the container */
+  padding-bottom: 1rem;       /* extra “ground” under sprites */
 }
+
+/* ============================================================================
+   Battle Cards – ensure they hug the bottom edge
+============================================================================ */
 .battle-card {
   position: relative;
   width: 100px;
+  margin-top: auto;            /* flex auto pushes them to bottom */
   text-align: center;
 }
 .pokemon-sprite {
