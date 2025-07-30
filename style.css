@@ -311,7 +311,7 @@ nav a.active {
    All‑Pokémon responsive grid (desktop → phone)
    ────────────────────────────────────────────────────────────────────────── */
 #all-pokemon-container {
-  width: 900px;           /* fill its parent (.main-content) */
+  width: 100%;           /* fill its parent (.main-content) */
   display: grid;
   grid-template-columns: repeat(
     auto-fit,            /* fit as many as possible */
@@ -381,4 +381,34 @@ nav a.active {
   cursor: pointer;
 }
 
+/* ────────────────────────────────────────────────────────────────────────── 
+   Let the All‑Pokémon grid span the full viewport on desktop
+   ────────────────────────────────────────────────────────────────────────── */
+.main-content.all-pokemon-page {
+  /* remove the 960px cap */
+  max-width: none;
+  width: 100%;
+  padding: 1rem 2rem; /* optional breathing room */
+}
+
+/* then the grid itself fills that space */
+#all-pokemon-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 1rem;
+  margin: 0 auto 2rem;
+}
+
+/* tighten up min‑width on smaller screens */
+@media (max-width: 1024px) {
+  #all-pokemon-container {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  #all-pokemon-container {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  }
+}
 
