@@ -311,7 +311,7 @@ nav a.active {
    All‑Pokémon responsive grid (desktop → phone)
    ────────────────────────────────────────────────────────────────────────── */
 #all-pokemon-container {
-  width: 100%;           /* fill its parent (.main-content) */
+  width: 900px;           /* fill its parent (.main-content) */
   display: grid;
   grid-template-columns: repeat(
     auto-fit,            /* fit as many as possible */
