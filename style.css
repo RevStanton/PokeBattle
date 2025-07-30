@@ -442,10 +442,11 @@ header nav a.active {
 @media (max-width: 600px) {
   /* --- Header nav: stack & space out buttons --- */
   header nav {
-    display: flex;
+    display: inline;
     flex-direction: column;
     align-items: stretch;
     gap: 0.5rem;
+    margin: 15px
   }
   header nav a {
     width: 100%;
