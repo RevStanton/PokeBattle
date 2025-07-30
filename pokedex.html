@@ -31,11 +31,12 @@
     <div id="all-pokemon-container" class="pokemon-grid"></div>
   </main>
 
-  <!-- 3) Modal for full details -->
+  <!-- 3) Modal for full details (note id="pokemon-details"!) -->
   <div id="pokemon-modal" class="modal hidden">
     <div class="modal-content">
       <button id="modal-close" class="modal-close">✕</button>
-      <div id="modal-details"></div>
+      <!-- renderPokemonInfo still writes into #pokemon-details -->
+      <div id="pokemon-details"></div>
     </div>
   </div>
 
@@ -51,6 +52,7 @@
 
     import {
       renderFullPokemon
+      // which internally calls renderPokemonInfo(...)
     } from './ui/fullPokemonRenderer.js';
 
     async function init() {
@@ -68,10 +70,10 @@
           );
         });
 
-      // 3) click to open modal
+      // 3) click to open modal & render details into #pokemon-details
       const grid = document.getElementById('all-pokemon-container');
       const modal = document.getElementById('pokemon-modal');
-      const details = document.getElementById('modal-details');
+      const details = document.getElementById('pokemon-details');
       const closeBtn = document.getElementById('modal-close');
 
       grid.addEventListener('click', async e => {
@@ -84,10 +86,10 @@
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
 
-        // fetch & render into modal
+        // fetch & render into #pokemon-details
         try {
           const full = await fetchFullPokemon(name);
-          renderFullPokemon(full, details);
+          renderFullPokemon(full);  // uses #pokemon-details internally
         } catch (err) {
           console.error('Error loading', name, err);
           details.innerHTML = '<p>Error loading details.</p>';
