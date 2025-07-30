@@ -307,31 +307,40 @@ nav a.active {
   }
 }
 
-/* ---------------------------------------------------------------------------
-   All‑Pokémon page: auto‑filling responsive grid
---------------------------------------------------------------------------- */
+/* ────────────────────────────────────────────────────────────────────────── 
+   All‑Pokémon responsive grid (desktop → phone)
+   ────────────────────────────────────────────────────────────────────────── */
 #all-pokemon-container {
+  width: 100%;           /* fill its parent (.main-content) */
   display: grid;
-  /* auto‑fit as many 140px‑wide cards as will fit, each expanding to 1fr */
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  grid-template-columns: repeat(
+    auto-fit,            /* fit as many as possible */
+    minmax(140px, 1fr)   /* each at least 140px, grow to fill */
+  );
   gap: 1rem;
-  width: 100%;
   margin: 0 auto 2rem;
 }
 
-/* on small phones, let cards shrink to 100px */
-@media (max-width: 600px) {
+/* on tablets & small desktops, allow a bit narrower cards */
+@media (max-width: 1024px) {
   #all-pokemon-container {
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(120px, 1fr)
+    );
   }
 }
 
-/* optionally widen your main wrapper on desktops */
-@media (min-width: 1200px) {
-  .main-content {
-    max-width: 1200px;
+/* on phones, shrink the min width so you still get multiple columns */
+@media (max-width: 600px) {
+  #all-pokemon-container {
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(100px, 1fr)
+    );
   }
 }
+
 
 /* ===== Pokémon Detail Modal ===== */
 .modal {
