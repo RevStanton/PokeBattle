@@ -35,32 +35,27 @@
   <div id="pokemon-modal" class="modal hidden">
     <div class="modal-content">
       <button id="modal-close" class="modal-close">✕</button>
-      <!-- renderPokemonInfo still writes into #pokemon-details -->
+      <!-- our renderer still targets #pokemon-details -->
       <div id="pokemon-details"></div>
     </div>
   </div>
 
   <script type="module">
-    import {
-      fetchAllPokemonList,
-      fetchFullPokemon
-    } from './services/allPokemonService.js';
-
-    import {
-      renderPokemonList
-    } from './ui/allPokemonRenderer.js';
-
-    import {
-      renderFullPokemon
-      // which internally calls renderPokemonInfo(...)
-    } from './ui/fullPokemonRenderer.js';
+    import { fetchAllPokemonList, fetchFullPokemon } from './services/allPokemonService.js';
+    import { renderPokemonList }                     from './ui/allPokemonRenderer.js';
+    import { renderFullPokemon }                     from './ui/fullPokemonRenderer.js';
 
     async function init() {
-      // 1) fetch & render the full list
-      const allList = await fetchAllPokemonList();
-      renderPokemonList(allList);
+      // 1) fetch & show the full list
+      let allList = [];
+      try {
+        allList = await fetchAllPokemonList();
+        renderPokemonList(allList);
+      } catch (err) {
+        console.error('Failed to load Pokémon list:', err);
+      }
 
-      // 2) live‑filter
+      // 2) live‑filter as you type
       document
         .getElementById('pokemon-search-all')
         .addEventListener('input', e => {
@@ -70,43 +65,41 @@
           );
         });
 
-      // 3) click to open modal & render details into #pokemon-details
-      const grid = document.getElementById('all-pokemon-container');
-      const modal = document.getElementById('pokemon-modal');
-      const details = document.getElementById('pokemon-details');
+      // 3) click a card → open modal
+      const grid     = document.getElementById('all-pokemon-container');
+      const modal    = document.getElementById('pokemon-modal');
+      const details  = document.getElementById('pokemon-details');
       const closeBtn = document.getElementById('modal-close');
 
       grid.addEventListener('click', async e => {
         const card = e.target.closest('.pkmn-card');
         if (!card) return;
-        const name = card.dataset.name;
 
-        // show modal & lock scroll
+        const name = card.dataset.name;
         details.innerHTML = '<p>Loading…</p>';
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
 
-        // fetch & render into #pokemon-details
         try {
           const full = await fetchFullPokemon(name);
-          renderFullPokemon(full);  // uses #pokemon-details internally
+          renderFullPokemon(full);
         } catch (err) {
-          console.error('Error loading', name, err);
+          console.error(`Error loading ${name}:`, err);
           details.innerHTML = '<p>Error loading details.</p>';
         }
       });
 
-      // 4) close handlers
-      closeBtn.onclick = () => {
+      // 4) close modal
+      closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
         document.body.style.overflow = '';
-      };
-      modal.onclick = evt => {
-        if (evt.target === modal) {
+      });
+      modal.addEventListener('click', e => {
+        if (e.target === modal) {
           modal.classList.add('hidden');
           document.body.style.overflow = '';
         }
-      };
+      });
     }
 
     document.addEventListener('DOMContentLoaded', init);
