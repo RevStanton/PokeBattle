@@ -2,34 +2,33 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Dexteria — Battle Simulator</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Dexteria Battle Simulator</title>
   <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
   <!-- Header & Nav -->
   <header>
-    <h1>Dexteria</h1>
+    <h1>PokéBattle Mini</h1>
     <nav>
       <a href="index.html">Home</a>
-      <a href="battle.html" class="active">Battle</a>
       <a href="pokedex.html">Pokédex</a>
     </nav>
   </header>
 
   <!-- Main Battle UI -->
-  <main class="main-content battle-page">
-    <!-- 1) Pokémon selector -->
-    <div id="selectorContainer" class="selector">
-      <label for="pokemon1">
+  <main class="main-content">
+    <!-- 1) Selector (always visible) -->
+    <div id="selectorContainer">
+      <label>
         Your Pokémon:
-        <select id="pokemon1" name="pokemon1">
+        <select id="pokemon1">
           <option value="">— Select —</option>
         </select>
       </label>
-      <label for="pokemon2">
+      <label>
         Opponent:
-        <select id="pokemon2" name="pokemon2">
+        <select id="pokemon2">
           <option value="">— Select —</option>
         </select>
       </label>
@@ -40,14 +39,10 @@
     <pre id="output" class="hidden"></pre>
 
     <!-- 3) Arena + sprites (hidden until start) -->
-    <div
-      id="battleContainer"
-      class="battle-container hidden"
-      aria-hidden="true"
-    >
+    <div id="battleContainer" class="battle-container hidden">
       <div class="battle-card" data-pokemon="p1">
         <div class="sprite-container">
-          <img id="poke1Img" class="pokemon-sprite" src="" alt="" />
+          <img id="poke1Img" class="pokemon-sprite" src="" alt=""/>
           <div class="effect-layer"></div>
         </div>
         <h2 id="poke1Name"></h2>
@@ -55,7 +50,7 @@
       </div>
       <div class="battle-card" data-pokemon="p2">
         <div class="sprite-container">
-          <img id="poke2Img" class="pokemon-sprite" src="" alt="" />
+          <img id="poke2Img" class="pokemon-sprite" src="" alt=""/>
           <div class="effect-layer"></div>
         </div>
         <h2 id="poke2Name"></h2>
