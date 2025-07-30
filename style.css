@@ -41,36 +41,49 @@ body {
 /* ============================================================================
    Header & Nav
 ============================================================================ */
+/* ──────────────────────────────────────────────────────────────────────────
+   Header redesign: Title above, nav links in a centered row below
+────────────────────────────────────────────────────────────────────────── */
 header {
+  display: flex;
+  flex-direction: column;      /* stack title + nav vertically */
+  align-items: center;         /* center both horizontally */
   background: var(--panel-bg);
   border-bottom: 4px solid var(--primary-purple);
   padding: 1rem 2rem;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
+
 header h1 {
+  margin: 0 0 0.75rem;         /* space below the title */
   font-family: var(--font-header);
   color: var(--primary-purple);
   font-size: 1.8rem;
   text-shadow: 2px 2px var(--secondary-red);
 }
-nav a {
+
+header nav {
+  display: flex;
+  flex-direction: row;         /* place links side by side */
+  gap: 1rem;                   /* space between buttons */
+}
+
+header nav a {
   font-family: var(--font-header);
   font-size: 0.75rem;
-  margin-left: 1rem;
   color: var(--primary-purple);
   text-decoration: none;
-  padding: 0.5rem;
+  padding: 0.5rem 1rem;
   background: var(--panel-bg);
   border: 2px solid var(--secondary-red);
   transition: background var(--transition-med);
 }
-nav a:hover,
-nav a.active {
+
+header nav a:hover,
+header nav a.active {
   background: var(--secondary-red);
   color: var(--panel-bg);
 }
+
 
 /* ============================================================================
    Main wrapper
