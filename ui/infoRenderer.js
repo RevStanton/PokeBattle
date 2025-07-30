@@ -16,7 +16,8 @@ export function renderPokemonInfo(p) {
     habitat,
     growth_rate,
     // enriched ability details
-    abilityDetails = []
+    abilityDetails = [],
+    evolution = []
   } = p;
 
   const container = document.getElementById('pokemon-details');
@@ -35,7 +36,22 @@ export function renderPokemonInfo(p) {
 
     ${genus ? `<p class="poke-genus">${genus}</p>` : ''}
     ${description ? `<p class="poke-desc">${description}</p>` : ''}
-
+    <!-- NEW Evolution Chain -->
+  ${evolution.length > 1 ? `
+    <div class="poke-evolution">
+      <h3>Evolution Chain</h3>
+      <ul class="evo-list">
+        ${evolution.map(e => `
+          <li>
+            <a href="#" data-name="${e.name}">
+              <img src="${e.sprites.frontDefault || ''}" alt="${e.name}">
+              <span>${e.name}</span>
+            </a>
+          </li>
+        `).join('')}
+      </ul>
+    </div>
+  ` : ''}
     <div class="poke-abilities">
       <h3>Abilities</h3>
       ${abilityDetails.map(a => `

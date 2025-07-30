@@ -563,3 +563,36 @@ header nav a.active {
     font-size: 0.75rem;
   }
 }
+
+.poke-evolution {
+  margin-bottom: 1.5rem;
+}
+.evo-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+}
+.evo-list li {
+  text-align: center;
+}
+.evo-list img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  image-rendering: pixelated;
+}
+.evo-list span {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  text-transform: capitalize;
+}
+.evo-list a {
+  color: inherit;
+  text-decoration: none;
+}
+.evo-list a:hover span {
+  text-decoration: underline;
+}

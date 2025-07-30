@@ -74,3 +74,29 @@ export async function fetchAbilityInfo(nameOrId) {
 
   return { name: ab.name, effect, flavor };
 }
+
+/**
+ * Fetch a Pokémon’s evolution‐chain species names.
+ * Returns an array of names, in order.
+ */
+export async function fetchEvolutionChain(nameOrId) {
+  // 1) grab species to get the chain URL
+  const spRes = await fetch(`${API_BASE}/pokemon-species/${nameOrId}`);
+  if (!spRes.ok) throw new Error(`Species "${nameOrId}" not found`);
+  const sp = await spRes.json();
+
+  // 2) fetch the chain object
+  const chainRes = await fetch(sp.evolution_chain.url);
+  if (!chainRes.ok) throw new Error(`Evolution chain not found`);
+  const { chain } = await chainRes.json();
+
+  // 3) recursively traverse
+  const names = [];
+  function walk(node) {
+    names.push(node.species.name);
+    node.evolves_to.forEach(walk);
+  }
+  walk(chain);
+  return names;
+}
+

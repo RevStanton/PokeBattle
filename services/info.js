@@ -3,7 +3,8 @@ import {
   fetchPokemonList,
   fetchPokemonData,
   fetchPokemonSpecies,
-  fetchAbilityInfo
+  fetchAbilityInfo,
+  fetchEvolutionChain
 } from './api.js';
 import { renderPokemonInfo } from '../ui/infoRenderer.js';
 
@@ -56,12 +57,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const abilityDetails = await Promise.all(
         baseData.abilities.map(ab => fetchAbilityInfo(ab))
       );
-
+       const evolution = await Promise.all(
+        evoNames.map(n => fetchPokemonData(n))
+      );
       // Merge everything and hand it to your renderer
       renderPokemonInfo({
         ...baseData,
         ...speciesData,
-        abilityDetails
+        abilityDetails,
+        evolution
       });
     } catch (err) {
       console.error('Error loading Pokémon data:', err);
