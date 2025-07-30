@@ -109,7 +109,7 @@ nav a.active {
   align-items: flex-end;      /* keeps the Pokémon on the ground */
   flex-wrap: wrap;
 
-  width: 100%;
+  width: 800px;
   max-width: none;            /* allow full‐width if you want */
   /* bump up the height so sprites sit lower in image */
   height: 40vh;               /* ~40% of viewport height */
@@ -118,7 +118,7 @@ nav a.active {
 
   /* your arena background */
   background: var(--panel-bg)
-              url('/workspaces/PokeBattle/images/arena.jpg')
+              url('images/arena.jpg')
               no-repeat center bottom;
   background-size: cover;     /* fill the container */
   padding-bottom: 1rem;       /* extra “ground” under sprites */
