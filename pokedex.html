@@ -35,7 +35,7 @@
   <div id="pokemon-modal" class="modal hidden">
     <div class="modal-content">
       <button id="modal-close" class="modal-close">✕</button>
-      <!-- Your infoRenderer will fill this -->
+      <!-- infoRenderer will fill this (#pokemon-details) -->
       <div id="pokemon-details"></div>
     </div>
   </div>
@@ -54,8 +54,34 @@
     import { renderPokemonInfo }      
       from './ui/infoRenderer.js';
 
+    // shared loader + renderer
+    async function loadAndShow(name) {
+      const details = document.getElementById('pokemon-details');
+      details.innerHTML = '<p>Loading…</p>';
+      try {
+        const baseData    = await fetchPokemonData(name);
+        const speciesData = await fetchPokemonSpecies(name);
+        const abilityDetails = await Promise.all(
+          baseData.abilities.map(ab => fetchAbilityInfo(ab))
+        );
+        const evoNames = await fetchEvolutionChain(name);
+        const evolution = await Promise.all(
+          evoNames.map(n => fetchPokemonData(n))
+        );
+        renderPokemonInfo({
+          ...baseData,
+          ...speciesData,
+          abilityDetails,
+          evolution
+        });
+      } catch (err) {
+        console.error('Error loading', name, err);
+        details.innerHTML = '<p>Error loading details.</p>';
+      }
+    }
+
     async function init() {
-      // 1) load & show the grid
+      // 1) fetch & render grid
       let allList = [];
       try {
         allList = await fetchAllPokemonList();
@@ -74,92 +100,36 @@
           );
         });
 
-      // 3) click a card → open modal
+      // 3) grid click → open modal + load
       const grid     = document.getElementById('all-pokemon-container');
       const modal    = document.getElementById('pokemon-modal');
-      const details  = document.getElementById('pokemon-details');
       const closeBtn = document.getElementById('modal-close');
 
       grid.addEventListener('click', async e => {
         const card = e.target.closest('.pkmn-card');
         if (!card) return;
-        const name = card.dataset.name;
-
-        // show loading state
-        details.innerHTML = '<p>Loading…</p>';
         modal.classList.remove('hidden');
         document.body.style.overflow = 'hidden';
-
-        try {
-          // fetch core + species
-          const baseData    = await fetchPokemonData(name);
-          const speciesData = await fetchPokemonSpecies(name);
-
-          // fetch abilities
-          const abilityDetails = await Promise.all(
-            baseData.abilities.map(ab => fetchAbilityInfo(ab))
-          );
-
-          // fetch & assemble evolution chain
-          const evoNames = await fetchEvolutionChain(name);
-          const evolution = await Promise.all(
-            evoNames.map(n => fetchPokemonData(n))
-          );
-
-          // render everything
-          renderPokemonInfo({
-            ...baseData,
-            ...speciesData,
-            abilityDetails,
-            evolution
-          });
-
-          // wire up clicks on the evo‑chain sprites
-          const evoList = details.querySelector('.evo-list');
-          if (evoList) {
-            evoList.addEventListener('click', async evt => {
-              const a = evt.target.closest('a[data-name]');
-              if (!a) return;
-              evt.preventDefault();
-              const nextName = a.dataset.name;
-
-              // repeat the same load/render flow
-              details.innerHTML = '<p>Loading…</p>';
-              try {
-                const bd = await fetchPokemonData(nextName);
-                const sd = await fetchPokemonSpecies(nextName);
-                const ab = await Promise.all(
-                  bd.abilities.map(x => fetchAbilityInfo(x))
-                );
-                const en = await fetchEvolutionChain(nextName);
-                const evo = await Promise.all(
-                  en.map(nm => fetchPokemonData(nm))
-                );
-                renderPokemonInfo({
-                  ...bd,
-                  ...sd,
-                  abilityDetails: ab,
-                  evolution: evo
-                });
-              } catch (err) {
-                console.error('❌ Evo chain load failed:', err);
-                details.innerHTML = '<p>Error loading evolution.</p>';
-              }
-            }, { once: true });
-          }
-        } catch (err) {
-          console.error(`❌ Error loading ${name}:`, err);
-          details.innerHTML = '<p>Error loading details.</p>';
-        }
+        await loadAndShow(card.dataset.name);
       });
 
-      // 4) close modal handlers
+      // 4) delegated evolution‑chain clicks
+      document
+        .getElementById('pokemon-details')
+        .addEventListener('click', async e => {
+          const a = e.target.closest('.evo-list a[data-name]');
+          if (!a) return;
+          e.preventDefault();
+          await loadAndShow(a.dataset.name);
+        });
+
+      // 5) close modal
       closeBtn.addEventListener('click', () => {
         modal.classList.add('hidden');
         document.body.style.overflow = '';
       });
-      modal.addEventListener('click', evt => {
-        if (evt.target === modal) {
+      modal.addEventListener('click', e => {
+        if (e.target === modal) {
           modal.classList.add('hidden');
           document.body.style.overflow = '';
         }
